@@ -3,7 +3,7 @@
 
 <head>
     
-    <title>Frank's Note | Frank's Note</title>
+    <title>Office (Word) 2016中手动加载Endnote X7.4 | Frank's Note</title>
     
     <!-- Meta tags -->
     <meta charset="UTF-8">
@@ -31,9 +31,9 @@
     <meta name="msapplication-TileImage" content="/img/icons/mstile-144x144.png?v=KmmkJnpdEE">
     <meta name="theme-color" content="#a6412b">
     <!-- Meta -->
-    <meta name="description" content="Frank's Digest">
+    <meta name="description" content="电脑升级到Windows 10之后，顺便把Office也升级到2016版Office 365，可即便Endnote已更新到最新版本，Word中也没有CWYW的选项卡，这里就介绍如何使用Endnote官方的补丁手动注册Endnote的CWYW选项卡。">
     <meta name="author" content="Frank Lin">
-    <link rel="canonical" href="http://note.flinhong.com/">
+    <link rel="canonical" href="http://note.flinhong.com/tips/endnote-in-word-2016/">
     
     <meta http-equiv="content-language" content="zh-Hans">
     
@@ -248,132 +248,221 @@
             <div class="row">
                 <!-- Main content -->
                 <div class="col col_8_of_12 main_content">
-                    <!-- Article standard view -->
-                    <div class="article_standard_view">
+                    <!-- Breadcrumb -->
+                    <div class="breadcrumb">
+                        <ul class="clearfix">
+                            <li><a href="https://www.flinhong.com">Home</a></li>
+                            <li><a href="/">Note</a></li>
+                            <li>Office (Word) 2016中手动加载Endnote X7.4</li>
+                        </ul>
+                    </div>
+                    <!-- Article -->
+                    <article class="post">
+                        <!-- Post header -->
+                        <header class="post_header">
+                            <h1>Office (Word) 2016中手动加载Endnote X7.4</h1>
+                            <div class="entry_meta">
+                                <span><i class="fa fa-user"></i> Frank Lin</span>
+                                <span><i class="fa fa-clock-o"></i> Nov 30, 2015</span>
+                                <span><i class="fa fa-book"></i> Tips</span>
+                                <span><i class="fa fa-tags"></i>  Endnote </span>
+                                <span><i class="fa fa-pencil-square-o"></i> 2908 words</span>
+                                <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/endnote-in-word-2016/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/endnote-in-word-2016"> Comments</a></span>
+                            </div>
+                        </header>
+                        <!-- Post content -->
                         
-                        <article class="item">
-                            
 
-<div class="item_header">
-    <a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/"><img src="/images/201604/comments.jpg" alt="Example of a Javascript for recent comment widget based on Disqus API"></a>
+<div class="post_content">
+    <a href="/images/201511/endnote.png" class="magnificPopupImage">
+        <img src="/images/201511/endnote.png" alt="Office (Word) 2016中手动加载Endnote X7.4">
+    </a>
+    
 </div>
 
 
-                            <div class="item_content">
-                                <h3><a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/">Example of a Javascript for recent comment widget based on Disqus API</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 13, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/example-of-js-recent-comments-widget-based-on-disqus-api/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/example-of-js-recent-comments-widget-based-on-disqus-api"> Comments</a></span>
-                                </div>
+                        <!-- Post main content -->
+                        <div class="post_main_container">
+                        <p>电脑升级到Windows 10之后，顺便把Office也升级到2016版Office 365，可即便Endnote已更新到最新版本，Word中也没有CWYW的选项卡，这里就介绍如何使用Endnote官方的补丁手动注册Endnote的CWYW选项卡。</p>
+
+<p>Endnote在官网给出了一个补丁：<a href="http://endnote.com/kb/137576">http://endnote.com/kb/137576</a>，里面也给出了详细的说明，请注意该说明中提到的资源在上述网页的右边栏中下载，或者是从我下面给出的链接中下载。</p>
+
+<p>大家可以随时去检查一下Endnote官网的<a href="http://endnote.com/product-details/compatibility">Compatibility and system requirements</a>页面查看有没有更新。到写这篇博文为止，针对Windows版的Office 2016还是<code class="highlighter-rouge">If you have Word 2016 and are not seeing the tools, go to http://endnote.com/kb/137576 to manually install them.</code> 好吧，那就自己手动安装吧。</p>
+
+<p>这里给大家引用一下官方的说明：</p>
+
+<ol>
+  <li>Launch Word 2016.</li>
+  <li>In Word’s ribbon tab, select “File”, then “Account”, and then click “About Word” button.  The end of the first line indicates the architecture (32-bit or 64-bit) of this installation of Microsoft Word.  Close Microsoft Word after you have checked this.</li>
+  <li>Please on the right side download the “X74_CWYW_X86.zip” if you are using Microsoft Word 32-bit, or “X74_CWYW_X64.zip” if you are using Microsoft Word 64-bit.</li>
+  <li>Right click the downloaded zip file, and select “Extract All…”, and extract it to a temporary location you like (i.e. Desktop).  After the extraction, it will open an Explorer window, with a folder “ResearchSoft” in it.</li>
+  <li>
+    <p>Move the “ResearchSoft” folder inside that folder to the appropriate Common Program Files folder depends on your system:</p>
+
+    <p>1). If you are running 32-bit version of Windows there is no <code class="highlighter-rouge">C:\Program Files (x86)</code>, move the “ResearchSoft” folder to: <code class="highlighter-rouge">C:\Program Files\Common Files</code></p>
+
+    <p>2). If you are running 64-bit version of Windows, and you downloaded <code class="highlighter-rouge">X74_CWYW_X86.zip</code> (for Word 2016 32-bit), move the “ResearchSoft” folder to: <code class="highlighter-rouge">C:\Program Files (x86)\Common Files</code></p>
+
+    <p>3). If you are running 64-bit version of Windows, and you downloaded <code class="highlighter-rouge">X74_CWYW_X64.zip</code> (for Word 2016 64-bit), move the “ResearchSoft” folder to: <code class="highlighter-rouge">C:\Program Files\Common Files</code></p>
+
+    <p>4). Select “Continue” if you are prompted to provide administrative permission to move the folder.</p>
+  </li>
+  <li>Double click the “ResearchSoft” folder in Common Program Files folder, then “Cwyw”, and then “17”.</li>
+  <li>Right click the “InstallCWYW.bat”, and select “Run as administrator”, and click “Yes” in the User Account Control elevation prompt.</li>
+  <li>Launch Word again, you should see the “EndNote X7” or “EndNote” ribbon tab, depends on whether you have EndNote X7 installed, and have selected the EndNote X7 or EndNote online tools.</li>
+</ol>
+
+<hr />
+<p>简单说来，就是先要确定自己的Office (Word)版本，看你装的是32位还是64位的Office，然后根据情况下载下面其中一个资源：</p>
+
+<ul class="list type-3">
+  <li><a href="http://kbportal.thomson.com/utility/getfile.aspx?rid=7645">X74_CWYW_X86.zip</a></li>
+  <li><a href="http://kbportal.thomson.com/utility/getfile.aspx?rid=7646">X74_CWYW_X64.zip</a></li>
+</ul>
+
+<p>上面这是官网的下载地址，有同学反映不能下载，那就给个我自己网盘的备份吧：<a href="https://yunpan.cn/cxM8Cjxr3DmRL">X74_CWYW_X86.zip and X74_CWYW_X64.zip download</a> （token：d17e）。</p>
+
+<p>下载完后，解压缩到自己喜欢的位置，里面包含一个<code class="highlighter-rouge">ResearchSoft</code>的文件夹，将这个文件夹移动到系统相应的<code class="highlighter-rouge">Common Files</code>文件夹中：</p>
+
+<ol>
+  <li>如果你使用32位的Windows系统，就移动到<code class="highlighter-rouge">C:\Program Files\Common Files</code></li>
+  <li>如果你使用64位的Windows系统，但是安装的是32位Office软件，就移动到<code class="highlighter-rouge">C:\Program Files (x86)\Common Files</code></li>
+  <li>如果你使用64位的Windows，并安装的是64位的Office，那就移动到<code class="highlighter-rouge">C:\Program Files\Common Files</code></li>
+</ol>
+
+<p>然后双击打开<code class="highlighter-rouge">ResearchSoft</code>文件夹，再打开<code class="highlighter-rouge">CWYW</code>，接着打开<code class="highlighter-rouge">17</code>文件夹。</p>
+
+<p>右击<code class="highlighter-rouge">InstallCWYW.bat</code>并选择管理员模式运行，在弹出的窗口中单击<code class="highlighter-rouge">确定</code>。这样就完成了Endnote CWYW选项卡的注册，重启Office (Word)就可以照常使用了。相信过不久Endnote更新会自动更新这一块的。</p>
+
+                        <br/>
+Share this post:
+<div class="addthis_sharing_toolbox"></div>
+
+                        <div class="spacer" style="color: #79AF80"><i class="fa fa-anchor fa-lg"></i></div>
+                        </div><!-- End .Post main content -->
+                        <!-- Post controls -->
+                        <div class="post_controls">
+                            <div class="prev_post">
+                                <span><i class="fa fa-angle-double-left" aria-hidden="true"></i> Previous</span>
                                 
-                                <p>Recently, I changed the comment serves from Duoshuo to Disqus on my blog and interested in adding a widget to show the recent comments in the sidebar. Back in the early days, Disqus itself provided an official JavaScript widget but, although it’s still available, it’s officially deprecated. And now you can use the Disqus API to get the raw data, and tailor the raw data exactly to your needs.</p>
+                                <a href="/journal/tai-hang-fire-dragon/">没有错过的大坑舞火龙</a>
                                 
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
                             </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-
-                            <div class="item_content">
-                                <h3><a href="/tips/redirect-http-to-https/">全站SSL，将http重定向到https</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 9, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/redirect-http-to-https/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/redirect-http-to-https"> Comments</a></span>
-                                </div>
+                            <div class="post_separator"></div>
+                            <div class="next_post">
+                                <span>Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
                                 
-                                <p>超文本传输协议（HTTP-Hypertext transfer protocol）是一种详细规定了浏览器和万维网服务器之间互相通信的规则，通过因特网传送万维网文档的数据传送协议。而HTTPS（全称：Hypertext Transfer Protocol over Secure Socket Layer），是以安全为目标的http通道，简单讲是http的安全版。即http下加入SSL（Security Socket Layer）层，https的安全基础是SSL，因此加密的详细内容就需要SSL。总的来讲，http效率更高，https安全性更高。</p>
+                                <a href="/study/bool-in-c-sharp/">C#中布尔逻辑</a>
                                 
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
                             </div>
-                        </article>
+                        </div>
                         
-                        <article class="item">
-                            
-
-
-                            <div class="item_content">
-                                <h3><a href="/journal/blog-encryption-with-openssl/">博客启用https啦</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 9, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/journal/blog-encryption-with-openssl/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//journal/blog-encryption-with-openssl"> Comments</a></span>
-                                </div>
-                                
-                                <p>从今天起，我的博客正式切换到https啦。在浏览器的地址栏中终于有把绿色小锁了，再也不同担心浏览器说网站不安全了，瞬间觉得专业了，有没有。。</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-
-                            <div class="item_content">
-                                <h3><a href="/tips/delete-files-with-looooong-names/">Windows上删除文件路径过长的文件</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 7, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/delete-files-with-looooong-names/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/delete-files-with-looooong-names"> Comments</a></span>
-                                </div>
-                                
-                                <p>好吧，遇到这样的问题也是个学习的机会。今天想要批量压缩博客图片文件以符合PageSpeed Insights的要求，就到处找工具和方法。没想到遇到一个坑。</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-<div class="item_header">
-    <iframe width="1280" height="720" src="https://www.youtube.com/embed/8mVbdjec0pA" frameborder="0" allowfullscreen></iframe>
+<!-- Author box -->
+<div class="author_box">
+    <img src="/demo/banner-ads/125x125.jpg" alt="Avatar">
+    <div class="description">
+        <a class="bio" href="#">Frank Lin</a>
+        <p>Vestibulum eu dictum nibh. In congue, purus gravida ultricies fermentum, leo orci cursus nibh, a sollicitudin lectus mi eget felis. Proin eu metus id augue ornare maximus. Sed non nulla vel lectus ullamcorper aliquet eget sed sem.</p>
+        <ul class="social_icons">
+            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+            <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+        </ul>
+    </div>
 </div>
 
-
-                            <div class="item_content">
-                                <h3><a href="/media/Gabrielle-Aplin-Home/">Gabrielle Aplin - Home</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 3, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/media/Gabrielle-Aplin-Home/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//media/Gabrielle-Aplin-Home"> Comments</a></span>
-                                </div>
-                                
-                                <p>看完一部电影，听完一首歌，以及经历一个别人的故事，而后感悟一下自己的人生："真正心碎的经历，是你怀着思乡心切的情感回道故乡，却感觉到格格不入时，不是家乡变了，而是你自己变了。"</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
                         
-                    </div><!-- End .Article standard view -->
-
-
-                    <ul class="page-numbers">
+<!-- Related articles -->
+<h5 class="title_section">Related articles</h5>
+<div class="related_articles">
+    <div class="row">
+        
+        <div class="col col_4_of_12">
+            <div class="article_standard_view">
+                <article class="item">
                     
-                        
-                        <li><span class="page-numbers"><i class="fa fa-caret-left"></i></li>
-                        
-                        
-                        
-                        <li><span class="page-numbers current">1</span></li>
-                        
-                        
-                        
-                        <li><a class="page-numbers" href="/page2">2</a></li>
-                        
-                        
-                        
-                        <li><a class="page-numbers" href="/page3">3</a></li>
-                        
-                        
-                        
-                        <li><a class="page-numbers" href="/page4">4</a></li>
-                        
-                        
-                        
-                        <li><a class="next page-numbers" href="/page2"><i class="fa fa-caret-right"></i></a></li>
-                        
+                    <div class="item_header">
+                        <a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/"><img src="/images/201604/comments.jpg" alt="Example of a Javascript for recent comment widget based on Disqus API"></a>
+                    </div>
                     
-                    </ul>
+                    <div class="item_content">
+                        <h3><a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/">Example of a Javascript for recent comment widget based on Disqus API</a></h3>
+                        <div class="entry_meta">
+                        <span><i class="fa fa-clock-o"></i> 2016-04-13</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+        <div class="col col_4_of_12">
+            <div class="article_standard_view">
+                <article class="item">
+                    
+                    <div class="item_header">
+                        <a href="/tips/redirect-http-to-https/"><img src="/img/noimage.jpg" alt="全站SSL，将http重定向到https"></a>
+                    </div>
+                    
+                    <div class="item_content">
+                        <h3><a href="/tips/redirect-http-to-https/">全站SSL，将http重定向到https</a></h3>
+                        <div class="entry_meta">
+                        <span><i class="fa fa-clock-o"></i> 2016-04-09</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+        <div class="col col_4_of_12">
+            <div class="article_standard_view">
+                <article class="item">
+                    
+                    <div class="item_header">
+                        <a href="/journal/blog-encryption-with-openssl/"><img src="/img/noimage.jpg" alt="博客启用https啦"></a>
+                    </div>
+                    
+                    <div class="item_content">
+                        <h3><a href="/journal/blog-encryption-with-openssl/">博客启用https啦</a></h3>
+                        <div class="entry_meta">
+                        <span><i class="fa fa-clock-o"></i> 2016-04-09</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_recommended_horizontal"></div>
+
+                        
+<!-- Comments -->
+<h5 class="title_section">Comments</h5>
+
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+this.page.url = "http://note.flinhong.com/tips/endnote-in-word-2016/";
+this.page.identifier = "Frank's Note//tips/endnote-in-word-2016";
+this.page.title = "Office (Word) 2016中手动加载Endnote X7.4";
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//flinhong.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+                    </article><!-- End .Article -->
                 </div><!-- End .Main content -->
                 
 <!-- Sidebar area -->

@@ -3,7 +3,7 @@
 
 <head>
     
-    <title>Frank's Note | Frank's Note</title>
+    <title>Install 360 Wifi2 (MT7601U) driver in Ubuntu | Frank's Note</title>
     
     <!-- Meta tags -->
     <meta charset="UTF-8">
@@ -31,9 +31,9 @@
     <meta name="msapplication-TileImage" content="/img/icons/mstile-144x144.png?v=KmmkJnpdEE">
     <meta name="theme-color" content="#a6412b">
     <!-- Meta -->
-    <meta name="description" content="Frank's Digest">
+    <meta name="description" content="简单几步，让你的360 Wifi2在Ubuntu中工作。这得感谢GitHub上的大神的辛勤工作。">
     <meta name="author" content="Frank Lin">
-    <link rel="canonical" href="http://note.flinhong.com/">
+    <link rel="canonical" href="http://note.flinhong.com/tips/360wifi2-in-ubuntu/">
     
     <meta http-equiv="content-language" content="zh-Hans">
     
@@ -248,132 +248,214 @@
             <div class="row">
                 <!-- Main content -->
                 <div class="col col_8_of_12 main_content">
-                    <!-- Article standard view -->
-                    <div class="article_standard_view">
+                    <!-- Breadcrumb -->
+                    <div class="breadcrumb">
+                        <ul class="clearfix">
+                            <li><a href="https://www.flinhong.com">Home</a></li>
+                            <li><a href="/">Note</a></li>
+                            <li>Install 360 Wifi2 (MT7601U) driver in Ubuntu</li>
+                        </ul>
+                    </div>
+                    <!-- Article -->
+                    <article class="post">
+                        <!-- Post header -->
+                        <header class="post_header">
+                            <h1>Install 360 Wifi2 (MT7601U) driver in Ubuntu</h1>
+                            <div class="entry_meta">
+                                <span><i class="fa fa-user"></i> Frank Lin</span>
+                                <span><i class="fa fa-clock-o"></i> Sep 16, 2015</span>
+                                <span><i class="fa fa-book"></i> Tips</span>
+                                <span><i class="fa fa-tags"></i>  360wifi2  Ubuntu </span>
+                                <span><i class="fa fa-pencil-square-o"></i> 844 words</span>
+                                <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/360wifi2-in-ubuntu/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/360wifi2-in-ubuntu"> Comments</a></span>
+                            </div>
+                        </header>
+                        <!-- Post content -->
                         
-                        <article class="item">
-                            
 
-<div class="item_header">
-    <a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/"><img src="/images/201604/comments.jpg" alt="Example of a Javascript for recent comment widget based on Disqus API"></a>
+<div class="post_content">
+    <a href="/images/201509/360wifi.png" class="magnificPopupImage">
+        <img src="/images/201509/360wifi.png" alt="Install 360 Wifi2 (MT7601U) driver in Ubuntu">
+    </a>
+    
 </div>
 
 
-                            <div class="item_content">
-                                <h3><a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/">Example of a Javascript for recent comment widget based on Disqus API</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 13, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/example-of-js-recent-comments-widget-based-on-disqus-api/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/example-of-js-recent-comments-widget-based-on-disqus-api"> Comments</a></span>
-                                </div>
+                        <!-- Post main content -->
+                        <div class="post_main_container">
+                        <p>真是很抱歉，我忘记是在什么地方看到的这个方法了，总之是感谢这大神的回复了。 原述如下，真的很简单，而且很管用！</p>
+
+<p>I suggest you get a temporary internet connection, ethernet, tethered or whatever is available. Then do:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9</pre></td><td class="code"><pre><span class="gp">$ </span>sudo apt-get install linux-headers-generic build-essential git
+<span class="gp">$ </span>sudo apt-get install git
+<span class="gp">$ </span>git clone https://github.com/porjo/mt7601.git
+<span class="gp">$ </span><span class="nb">cd </span>mt7601/src
+<span class="gp">$ </span>make
+<span class="gp">$ </span>sudo make install
+<span class="gp">$ </span>sudo mkdir -p /etc/Wireless/RT2870STA/
+<span class="gp">$ </span>sudo cp RT2870STA.dat /etc/Wireless/RT2870STA/
+<span class="gp">$ </span>sudo modprobe mt7601Usta<span class="w">
+</span></pre></td></tr></tbody></table></code></pre></figure>
+
+<p>Your wireless should now be working.</p>
+
+<p>首先用网线临时连上网络吧，然后在终端中运行上面语句，Wifi应该就可以工作了。</p>
+
+<p>但是，如果今后Ubuntu升级了linux kernel，那么你还需要重新编译，运行以下代码即可。</p>
+
+<p>You have compiled the driver for your current kernel version only. When Update Manager installs a later linux-image, after the required reboot, you must re-compile:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5</pre></td><td class="code"><pre><span class="gp">$ </span><span class="nb">cd </span>mt7601/src
+<span class="gp">$ </span>make clean
+<span class="gp">$ </span>make
+<span class="gp">$ </span>sudo make install
+<span class="gp">$ </span>sudo modprobe mt7601Usta<span class="w">
+</span></pre></td></tr></tbody></table></code></pre></figure>
+
+<p>好了，可以好好用Wifi啦！</p>
+
+                        <br/>
+Share this post:
+<div class="addthis_sharing_toolbox"></div>
+
+                        <div class="spacer" style="color: #79AF80"><i class="fa fa-anchor fa-lg"></i></div>
+                        </div><!-- End .Post main content -->
+                        <!-- Post controls -->
+                        <div class="post_controls">
+                            <div class="prev_post">
+                                <span><i class="fa fa-angle-double-left" aria-hidden="true"></i> Previous</span>
                                 
-                                <p>Recently, I changed the comment serves from Duoshuo to Disqus on my blog and interested in adding a widget to show the recent comments in the sidebar. Back in the early days, Disqus itself provided an official JavaScript widget but, although it’s still available, it’s officially deprecated. And now you can use the Disqus API to get the raw data, and tailor the raw data exactly to your needs.</p>
+                                <a href="/">Back to Homepage</a>
                                 
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
                             </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-
-                            <div class="item_content">
-                                <h3><a href="/tips/redirect-http-to-https/">全站SSL，将http重定向到https</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 9, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/redirect-http-to-https/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/redirect-http-to-https"> Comments</a></span>
-                                </div>
+                            <div class="post_separator"></div>
+                            <div class="next_post">
+                                <span>Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
                                 
-                                <p>超文本传输协议（HTTP-Hypertext transfer protocol）是一种详细规定了浏览器和万维网服务器之间互相通信的规则，通过因特网传送万维网文档的数据传送协议。而HTTPS（全称：Hypertext Transfer Protocol over Secure Socket Layer），是以安全为目标的http通道，简单讲是http的安全版。即http下加入SSL（Security Socket Layer）层，https的安全基础是SSL，因此加密的详细内容就需要SSL。总的来讲，http效率更高，https安全性更高。</p>
+                                <a href="/design/code-highlighting-in-jekyll/">Jekyll-based博客中实现代码高亮</a>
                                 
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
                             </div>
-                        </article>
+                        </div>
                         
-                        <article class="item">
-                            
-
-
-                            <div class="item_content">
-                                <h3><a href="/journal/blog-encryption-with-openssl/">博客启用https啦</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 9, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/journal/blog-encryption-with-openssl/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//journal/blog-encryption-with-openssl"> Comments</a></span>
-                                </div>
-                                
-                                <p>从今天起，我的博客正式切换到https啦。在浏览器的地址栏中终于有把绿色小锁了，再也不同担心浏览器说网站不安全了，瞬间觉得专业了，有没有。。</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-
-                            <div class="item_content">
-                                <h3><a href="/tips/delete-files-with-looooong-names/">Windows上删除文件路径过长的文件</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 7, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/delete-files-with-looooong-names/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/delete-files-with-looooong-names"> Comments</a></span>
-                                </div>
-                                
-                                <p>好吧，遇到这样的问题也是个学习的机会。今天想要批量压缩博客图片文件以符合PageSpeed Insights的要求，就到处找工具和方法。没想到遇到一个坑。</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-<div class="item_header">
-    <iframe width="1280" height="720" src="https://www.youtube.com/embed/8mVbdjec0pA" frameborder="0" allowfullscreen></iframe>
+<!-- Author box -->
+<div class="author_box">
+    <img src="/demo/banner-ads/125x125.jpg" alt="Avatar">
+    <div class="description">
+        <a class="bio" href="#">Frank Lin</a>
+        <p>Vestibulum eu dictum nibh. In congue, purus gravida ultricies fermentum, leo orci cursus nibh, a sollicitudin lectus mi eget felis. Proin eu metus id augue ornare maximus. Sed non nulla vel lectus ullamcorper aliquet eget sed sem.</p>
+        <ul class="social_icons">
+            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+            <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+        </ul>
+    </div>
 </div>
 
-
-                            <div class="item_content">
-                                <h3><a href="/media/Gabrielle-Aplin-Home/">Gabrielle Aplin - Home</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 3, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/media/Gabrielle-Aplin-Home/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//media/Gabrielle-Aplin-Home"> Comments</a></span>
-                                </div>
-                                
-                                <p>看完一部电影，听完一首歌，以及经历一个别人的故事，而后感悟一下自己的人生："真正心碎的经历，是你怀着思乡心切的情感回道故乡，却感觉到格格不入时，不是家乡变了，而是你自己变了。"</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
                         
-                    </div><!-- End .Article standard view -->
-
-
-                    <ul class="page-numbers">
+<!-- Related articles -->
+<h5 class="title_section">Related articles</h5>
+<div class="related_articles">
+    <div class="row">
+        
+        <div class="col col_4_of_12">
+            <div class="article_standard_view">
+                <article class="item">
                     
-                        
-                        <li><span class="page-numbers"><i class="fa fa-caret-left"></i></li>
-                        
-                        
-                        
-                        <li><span class="page-numbers current">1</span></li>
-                        
-                        
-                        
-                        <li><a class="page-numbers" href="/page2">2</a></li>
-                        
-                        
-                        
-                        <li><a class="page-numbers" href="/page3">3</a></li>
-                        
-                        
-                        
-                        <li><a class="page-numbers" href="/page4">4</a></li>
-                        
-                        
-                        
-                        <li><a class="next page-numbers" href="/page2"><i class="fa fa-caret-right"></i></a></li>
-                        
+                    <div class="item_header">
+                        <a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/"><img src="/images/201604/comments.jpg" alt="Example of a Javascript for recent comment widget based on Disqus API"></a>
+                    </div>
                     
-                    </ul>
+                    <div class="item_content">
+                        <h3><a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/">Example of a Javascript for recent comment widget based on Disqus API</a></h3>
+                        <div class="entry_meta">
+                        <span><i class="fa fa-clock-o"></i> 2016-04-13</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+        <div class="col col_4_of_12">
+            <div class="article_standard_view">
+                <article class="item">
+                    
+                    <div class="item_header">
+                        <a href="/tips/redirect-http-to-https/"><img src="/img/noimage.jpg" alt="全站SSL，将http重定向到https"></a>
+                    </div>
+                    
+                    <div class="item_content">
+                        <h3><a href="/tips/redirect-http-to-https/">全站SSL，将http重定向到https</a></h3>
+                        <div class="entry_meta">
+                        <span><i class="fa fa-clock-o"></i> 2016-04-09</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+        <div class="col col_4_of_12">
+            <div class="article_standard_view">
+                <article class="item">
+                    
+                    <div class="item_header">
+                        <a href="/journal/blog-encryption-with-openssl/"><img src="/img/noimage.jpg" alt="博客启用https啦"></a>
+                    </div>
+                    
+                    <div class="item_content">
+                        <h3><a href="/journal/blog-encryption-with-openssl/">博客启用https啦</a></h3>
+                        <div class="entry_meta">
+                        <span><i class="fa fa-clock-o"></i> 2016-04-09</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_recommended_horizontal"></div>
+
+                        
+<!-- Comments -->
+<h5 class="title_section">Comments</h5>
+
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+this.page.url = "http://note.flinhong.com/tips/360wifi2-in-ubuntu/";
+this.page.identifier = "Frank's Note//tips/360wifi2-in-ubuntu";
+this.page.title = "Install 360 Wifi2 (MT7601U) driver in Ubuntu";
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//flinhong.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+                    </article><!-- End .Article -->
                 </div><!-- End .Main content -->
                 
 <!-- Sidebar area -->

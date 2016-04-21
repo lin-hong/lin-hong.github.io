@@ -3,7 +3,7 @@
 
 <head>
     
-    <title>Frank's Note | Frank's Note</title>
+    <title>Search Results | Frank's Note</title>
     
     <!-- Meta tags -->
     <meta charset="UTF-8">
@@ -33,9 +33,9 @@
     <!-- Meta -->
     <meta name="description" content="Frank's Digest">
     <meta name="author" content="Frank Lin">
-    <link rel="canonical" href="http://note.flinhong.com/">
+    <link rel="canonical" href="http://note.flinhong.com/search/">
     
-    <meta http-equiv="content-language" content="zh-Hans">
+    <meta http-equiv="content-language" content="en">
     
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/css/normalize.css">
@@ -248,132 +248,44 @@
             <div class="row">
                 <!-- Main content -->
                 <div class="col col_8_of_12 main_content">
-                    <!-- Article standard view -->
-                    <div class="article_standard_view">
-                        
-                        <article class="item">
-                            
+                    <!-- Breadcrumb -->
+                    <div class="breadcrumb">
+                        <ul class="clearfix">
+                            <li><a href="https://www.flinhong.com">Home</a></li>
+                            <li><a href="/">Journal</a></li>
+                            <li>Search Results</li>
+                        </ul>
+                    </div>
+                    <!-- Article -->
+                    <article class="post">
+                        <!-- Post header -->
+                        <header class="post_header">
+                            <h1>Search Results</h1>
+                        </header>
+                        <!-- Post main content -->
+                        <div class="post_main_container">
+                        <form id="search" action="/search/" target="_self" method="get">
+    <input type="text" placeholder="Type and press enter..." size="100%" name="q">
+</form>
 
-<div class="item_header">
-    <a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/"><img src="/images/201604/comments.jpg" alt="Example of a Javascript for recent comment widget based on Disqus API"></a>
+<div class="search-results">
+<script>
+  (function() {
+    var cx = '005105319929643229323:e9fsi_yc9ng';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:searchresults-only></gcse:searchresults-only>
 </div>
 
-
-                            <div class="item_content">
-                                <h3><a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/">Example of a Javascript for recent comment widget based on Disqus API</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 13, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/example-of-js-recent-comments-widget-based-on-disqus-api/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/example-of-js-recent-comments-widget-based-on-disqus-api"> Comments</a></span>
-                                </div>
-                                
-                                <p>Recently, I changed the comment serves from Duoshuo to Disqus on my blog and interested in adding a widget to show the recent comments in the sidebar. Back in the early days, Disqus itself provided an official JavaScript widget but, although it’s still available, it’s officially deprecated. And now you can use the Disqus API to get the raw data, and tailor the raw data exactly to your needs.</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-
-                            <div class="item_content">
-                                <h3><a href="/tips/redirect-http-to-https/">全站SSL，将http重定向到https</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 9, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/redirect-http-to-https/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/redirect-http-to-https"> Comments</a></span>
-                                </div>
-                                
-                                <p>超文本传输协议（HTTP-Hypertext transfer protocol）是一种详细规定了浏览器和万维网服务器之间互相通信的规则，通过因特网传送万维网文档的数据传送协议。而HTTPS（全称：Hypertext Transfer Protocol over Secure Socket Layer），是以安全为目标的http通道，简单讲是http的安全版。即http下加入SSL（Security Socket Layer）层，https的安全基础是SSL，因此加密的详细内容就需要SSL。总的来讲，http效率更高，https安全性更高。</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-
-                            <div class="item_content">
-                                <h3><a href="/journal/blog-encryption-with-openssl/">博客启用https啦</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 9, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/journal/blog-encryption-with-openssl/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//journal/blog-encryption-with-openssl"> Comments</a></span>
-                                </div>
-                                
-                                <p>从今天起，我的博客正式切换到https啦。在浏览器的地址栏中终于有把绿色小锁了，再也不同担心浏览器说网站不安全了，瞬间觉得专业了，有没有。。</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-
-                            <div class="item_content">
-                                <h3><a href="/tips/delete-files-with-looooong-names/">Windows上删除文件路径过长的文件</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 7, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/delete-files-with-looooong-names/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/delete-files-with-looooong-names"> Comments</a></span>
-                                </div>
-                                
-                                <p>好吧，遇到这样的问题也是个学习的机会。今天想要批量压缩博客图片文件以符合PageSpeed Insights的要求，就到处找工具和方法。没想到遇到一个坑。</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-<div class="item_header">
-    <iframe width="1280" height="720" src="https://www.youtube.com/embed/8mVbdjec0pA" frameborder="0" allowfullscreen></iframe>
-</div>
-
-
-                            <div class="item_content">
-                                <h3><a href="/media/Gabrielle-Aplin-Home/">Gabrielle Aplin - Home</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 3, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/media/Gabrielle-Aplin-Home/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//media/Gabrielle-Aplin-Home"> Comments</a></span>
-                                </div>
-                                
-                                <p>看完一部电影，听完一首歌，以及经历一个别人的故事，而后感悟一下自己的人生："真正心碎的经历，是你怀着思乡心切的情感回道故乡，却感觉到格格不入时，不是家乡变了，而是你自己变了。"</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                    </div><!-- End .Article standard view -->
-
-
-                    <ul class="page-numbers">
-                    
-                        
-                        <li><span class="page-numbers"><i class="fa fa-caret-left"></i></li>
-                        
-                        
-                        
-                        <li><span class="page-numbers current">1</span></li>
-                        
-                        
-                        
-                        <li><a class="page-numbers" href="/page2">2</a></li>
-                        
-                        
-                        
-                        <li><a class="page-numbers" href="/page3">3</a></li>
-                        
-                        
-                        
-                        <li><a class="page-numbers" href="/page4">4</a></li>
-                        
-                        
-                        
-                        <li><a class="next page-numbers" href="/page2"><i class="fa fa-caret-right"></i></a></li>
-                        
-                    
-                    </ul>
+                        </div><!-- End .Post main content -->
+                    </article><!-- End .Article -->
                 </div><!-- End .Main content -->
                 
 <!-- Sidebar area -->

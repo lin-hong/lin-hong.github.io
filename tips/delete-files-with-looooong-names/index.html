@@ -3,7 +3,7 @@
 
 <head>
     
-    <title>Frank's Note | Frank's Note</title>
+    <title>Windows上删除文件路径过长的文件 | Frank's Note</title>
     
     <!-- Meta tags -->
     <meta charset="UTF-8">
@@ -31,9 +31,9 @@
     <meta name="msapplication-TileImage" content="/img/icons/mstile-144x144.png?v=KmmkJnpdEE">
     <meta name="theme-color" content="#a6412b">
     <!-- Meta -->
-    <meta name="description" content="Frank's Digest">
+    <meta name="description" content="好吧，遇到这样的问题也是个学习的机会。今天想要批量压缩博客图片文件以符合PageSpeed Insights的要求，就到处找工具和方法。没想到遇到一个坑。">
     <meta name="author" content="Frank Lin">
-    <link rel="canonical" href="http://note.flinhong.com/">
+    <link rel="canonical" href="http://note.flinhong.com/tips/delete-files-with-looooong-names/">
     
     <meta http-equiv="content-language" content="zh-Hans">
     
@@ -248,132 +248,187 @@
             <div class="row">
                 <!-- Main content -->
                 <div class="col col_8_of_12 main_content">
-                    <!-- Article standard view -->
-                    <div class="article_standard_view">
+                    <!-- Breadcrumb -->
+                    <div class="breadcrumb">
+                        <ul class="clearfix">
+                            <li><a href="https://www.flinhong.com">Home</a></li>
+                            <li><a href="/">Note</a></li>
+                            <li>Windows上删除文件路径过长的文件</li>
+                        </ul>
+                    </div>
+                    <!-- Article -->
+                    <article class="post">
+                        <!-- Post header -->
+                        <header class="post_header">
+                            <h1>Windows上删除文件路径过长的文件</h1>
+                            <div class="entry_meta">
+                                <span><i class="fa fa-user"></i> Frank Lin</span>
+                                <span><i class="fa fa-clock-o"></i> Apr 7, 2016</span>
+                                <span><i class="fa fa-book"></i> Tips</span>
+                                <span><i class="fa fa-tags"></i>  Windows  tools </span>
+                                <span><i class="fa fa-pencil-square-o"></i> 977 words</span>
+                                <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/delete-files-with-looooong-names/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/delete-files-with-looooong-names"> Comments</a></span>
+                            </div>
+                        </header>
+                        <!-- Post content -->
                         
-                        <article class="item">
-                            
 
-<div class="item_header">
-    <a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/"><img src="/images/201604/comments.jpg" alt="Example of a Javascript for recent comment widget based on Disqus API"></a>
+
+                        <!-- Post main content -->
+                        <div class="post_main_container">
+                        <p>好吧，遇到这样的问题也是个学习的机会。今天想要批量压缩博客图片文件以符合PageSpeed Insights的要求，就到处找工具和方法。没想到遇到一个坑。</p>
+
+<p>在GitHub上找到个软件叫<a href="https://github.com/stormtea123/hummingbird">hummingbird</a>，看起来UI还可以，就顺手下载了，结果并不满足自己的要求。待到要删除的时候发现文件路径太长，<del>软件作者嵌套了太多层文件夹</del>，应该是<code class="highlighter-rouge">Gruntjs</code>在做怪，我在使用时也发现生成了好多目录，Windows资源管理器不让删除，折腾了好久都没搞定。并且路径过长的文件残余太多，不能一个一个删呀，只能求教Google了。</p>
+
+<p>原来遇到一样问题的同学不止是我一个呀，有同学写程序的时候出现了递归，创建了n多超级长的文件夹和文件，无论正常模式下，还是DOS下，都无法删除某些递归出现的文件夹和文件😂。所以就找到微软的<a href="https://technet.microsoft.com/en-us/library/cc733145.aspx">Robocopy</a>这个复制工具。</p>
+
+<p>Robocopy是Microsoft在Windows Server 2003 Resource Kit Tools中提供的小工具，安装<a href="https://www.microsoft.com/en-us/download/details.aspx?id=17657">Windows Server 2003 Resource Kit Tools</a>既能获得。</p>
+
+<p>OK，装好工具就来删除这些令人心烦的文件吧。假如超长文件夹的路径是<code class="highlighter-rouge">D:\path_to_del\abc\abc\abc.....</code>，那么执行下面的步骤：</p>
+
+<ol>
+  <li>在<code class="highlighter-rouge">D:\path_to_del\</code>下新建一个空的文件夹，例如：<code class="highlighter-rouge">D:\path_to_del\blank_folder\</code>。</li>
+  <li>打开命令提示符：<code class="highlighter-rouge">Win+R</code>，输入<code class="highlighter-rouge">cmd</code>；或者在<code class="highlighter-rouge">D:\path_to_del\</code>文件夹中按住<code class="highlighter-rouge">Shift</code>右击鼠标，在弹出的右键菜单中选择在<code class="highlighter-rouge">在此处打开命令窗口</code>。</li>
+  <li>如果你是直接打开命令提示符，使用<code class="highlighter-rouge">cd</code>命令将路径切换到<code class="highlighter-rouge">D:\path_to_del\</code>。</li>
+  <li>输入：<code class="highlighter-rouge">Robocopy /MIR abc blank_folder</code>，就会把<code class="highlighter-rouge">path_to_del</code>下的第一个<code class="highlighter-rouge">abc</code>文件夹的目录结构按<code class="highlighter-rouge">blank_folder</code>的结构复写，也就是把<code class="highlighter-rouge">path_to_del\abc\</code>变成了空文件夹，赞！</li>
+  <li>等待命令执行完（文件太多，屏幕一直在滚动，看着好爽）。</li>
+  <li>命令执行完成后，统统删除！</li>
+</ol>
+
+<hr />
+<p>Robocopy还有很多有趣的命令，<a href="https://technet.microsoft.com/en-us/library/cc733145.aspx">微软</a>网站上有详细介绍，先mark一下，有用再说，哈哈🙂。</p>
+
+<p>另外，批量压缩图片还是用<code class="highlighter-rouge">Gruntjs</code>工具完成的，有时间单独说说这个，压缩效率不错。</p>
+
+                        <br/>
+Share this post:
+<div class="addthis_sharing_toolbox"></div>
+
+                        <div class="spacer" style="color: #79AF80"><i class="fa fa-anchor fa-lg"></i></div>
+                        </div><!-- End .Post main content -->
+                        <!-- Post controls -->
+                        <div class="post_controls">
+                            <div class="prev_post">
+                                <span><i class="fa fa-angle-double-left" aria-hidden="true"></i> Previous</span>
+                                
+                                <a href="/media/Gabrielle-Aplin-Home/">Gabrielle Aplin - Home</a>
+                                
+                            </div>
+                            <div class="post_separator"></div>
+                            <div class="next_post">
+                                <span>Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+                                
+                                <a href="/journal/blog-encryption-with-openssl/">博客启用https啦</a>
+                                
+                            </div>
+                        </div>
+                        
+<!-- Author box -->
+<div class="author_box">
+    <img src="/demo/banner-ads/125x125.jpg" alt="Avatar">
+    <div class="description">
+        <a class="bio" href="#">Frank Lin</a>
+        <p>Vestibulum eu dictum nibh. In congue, purus gravida ultricies fermentum, leo orci cursus nibh, a sollicitudin lectus mi eget felis. Proin eu metus id augue ornare maximus. Sed non nulla vel lectus ullamcorper aliquet eget sed sem.</p>
+        <ul class="social_icons">
+            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+            <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+        </ul>
+    </div>
 </div>
 
-
-                            <div class="item_content">
-                                <h3><a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/">Example of a Javascript for recent comment widget based on Disqus API</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 13, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/example-of-js-recent-comments-widget-based-on-disqus-api/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/example-of-js-recent-comments-widget-based-on-disqus-api"> Comments</a></span>
-                                </div>
-                                
-                                <p>Recently, I changed the comment serves from Duoshuo to Disqus on my blog and interested in adding a widget to show the recent comments in the sidebar. Back in the early days, Disqus itself provided an official JavaScript widget but, although it’s still available, it’s officially deprecated. And now you can use the Disqus API to get the raw data, and tailor the raw data exactly to your needs.</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
                         
-                        <article class="item">
-                            
-
-
-                            <div class="item_content">
-                                <h3><a href="/tips/redirect-http-to-https/">全站SSL，将http重定向到https</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 9, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/redirect-http-to-https/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/redirect-http-to-https"> Comments</a></span>
-                                </div>
-                                
-                                <p>超文本传输协议（HTTP-Hypertext transfer protocol）是一种详细规定了浏览器和万维网服务器之间互相通信的规则，通过因特网传送万维网文档的数据传送协议。而HTTPS（全称：Hypertext Transfer Protocol over Secure Socket Layer），是以安全为目标的http通道，简单讲是http的安全版。即http下加入SSL（Security Socket Layer）层，https的安全基础是SSL，因此加密的详细内容就需要SSL。总的来讲，http效率更高，https安全性更高。</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-
-                            <div class="item_content">
-                                <h3><a href="/journal/blog-encryption-with-openssl/">博客启用https啦</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 9, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/journal/blog-encryption-with-openssl/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//journal/blog-encryption-with-openssl"> Comments</a></span>
-                                </div>
-                                
-                                <p>从今天起，我的博客正式切换到https啦。在浏览器的地址栏中终于有把绿色小锁了，再也不同担心浏览器说网站不安全了，瞬间觉得专业了，有没有。。</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-
-                            <div class="item_content">
-                                <h3><a href="/tips/delete-files-with-looooong-names/">Windows上删除文件路径过长的文件</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 7, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/delete-files-with-looooong-names/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/delete-files-with-looooong-names"> Comments</a></span>
-                                </div>
-                                
-                                <p>好吧，遇到这样的问题也是个学习的机会。今天想要批量压缩博客图片文件以符合PageSpeed Insights的要求，就到处找工具和方法。没想到遇到一个坑。</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-<div class="item_header">
-    <iframe width="1280" height="720" src="https://www.youtube.com/embed/8mVbdjec0pA" frameborder="0" allowfullscreen></iframe>
+<!-- Related articles -->
+<h5 class="title_section">Related articles</h5>
+<div class="related_articles">
+    <div class="row">
+        
+        <div class="col col_4_of_12">
+            <div class="article_standard_view">
+                <article class="item">
+                    
+                    <div class="item_header">
+                        <a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/"><img src="/images/201604/comments.jpg" alt="Example of a Javascript for recent comment widget based on Disqus API"></a>
+                    </div>
+                    
+                    <div class="item_content">
+                        <h3><a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/">Example of a Javascript for recent comment widget based on Disqus API</a></h3>
+                        <div class="entry_meta">
+                        <span><i class="fa fa-clock-o"></i> 2016-04-13</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+        <div class="col col_4_of_12">
+            <div class="article_standard_view">
+                <article class="item">
+                    
+                    <div class="item_header">
+                        <a href="/tips/redirect-http-to-https/"><img src="/img/noimage.jpg" alt="全站SSL，将http重定向到https"></a>
+                    </div>
+                    
+                    <div class="item_content">
+                        <h3><a href="/tips/redirect-http-to-https/">全站SSL，将http重定向到https</a></h3>
+                        <div class="entry_meta">
+                        <span><i class="fa fa-clock-o"></i> 2016-04-09</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+        <div class="col col_4_of_12">
+            <div class="article_standard_view">
+                <article class="item">
+                    
+                    <div class="item_header">
+                        <a href="/journal/blog-encryption-with-openssl/"><img src="/img/noimage.jpg" alt="博客启用https啦"></a>
+                    </div>
+                    
+                    <div class="item_content">
+                        <h3><a href="/journal/blog-encryption-with-openssl/">博客启用https啦</a></h3>
+                        <div class="entry_meta">
+                        <span><i class="fa fa-clock-o"></i> 2016-04-09</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+    </div>
 </div>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_recommended_horizontal"></div>
+
+                        
+<!-- Comments -->
+<h5 class="title_section">Comments</h5>
+
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+this.page.url = "http://note.flinhong.com/tips/delete-files-with-looooong-names/";
+this.page.identifier = "Frank's Note//tips/delete-files-with-looooong-names";
+this.page.title = "Windows上删除文件路径过长的文件";
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//flinhong.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
 
-                            <div class="item_content">
-                                <h3><a href="/media/Gabrielle-Aplin-Home/">Gabrielle Aplin - Home</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 3, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/media/Gabrielle-Aplin-Home/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//media/Gabrielle-Aplin-Home"> Comments</a></span>
-                                </div>
-                                
-                                <p>看完一部电影，听完一首歌，以及经历一个别人的故事，而后感悟一下自己的人生："真正心碎的经历，是你怀着思乡心切的情感回道故乡，却感觉到格格不入时，不是家乡变了，而是你自己变了。"</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                    </div><!-- End .Article standard view -->
-
-
-                    <ul class="page-numbers">
-                    
-                        
-                        <li><span class="page-numbers"><i class="fa fa-caret-left"></i></li>
-                        
-                        
-                        
-                        <li><span class="page-numbers current">1</span></li>
-                        
-                        
-                        
-                        <li><a class="page-numbers" href="/page2">2</a></li>
-                        
-                        
-                        
-                        <li><a class="page-numbers" href="/page3">3</a></li>
-                        
-                        
-                        
-                        <li><a class="page-numbers" href="/page4">4</a></li>
-                        
-                        
-                        
-                        <li><a class="next page-numbers" href="/page2"><i class="fa fa-caret-right"></i></a></li>
-                        
-                    
-                    </ul>
+                    </article><!-- End .Article -->
                 </div><!-- End .Main content -->
                 
 <!-- Sidebar area -->

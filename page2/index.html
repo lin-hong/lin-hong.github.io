@@ -33,7 +33,7 @@
     <!-- Meta -->
     <meta name="description" content="Frank's Digest">
     <meta name="author" content="Frank Lin">
-    <link rel="canonical" href="http://note.flinhong.com/">
+    <link rel="canonical" href="http://note.flinhong.com/page2/">
     
     <meta http-equiv="content-language" content="zh-Hans">
     
@@ -255,69 +255,18 @@
                             
 
 <div class="item_header">
-    <a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/"><img src="/images/201604/comments.jpg" alt="Example of a Javascript for recent comment widget based on Disqus API"></a>
+    <a href="/design/date-formatting-for-jekyll/"><img src="/images/201603/date format.jpg" alt="Jekyll中的日期格式"></a>
 </div>
 
 
                             <div class="item_content">
-                                <h3><a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/">Example of a Javascript for recent comment widget based on Disqus API</a></h3>
+                                <h3><a href="/design/date-formatting-for-jekyll/">Jekyll中的日期格式</a></h3>
                                 <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 13, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/example-of-js-recent-comments-widget-based-on-disqus-api/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/example-of-js-recent-comments-widget-based-on-disqus-api"> Comments</a></span>
+                                    <span><i class="fa fa-clock-o"></i> Mar 9, 2016</span>
+                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/design/date-formatting-for-jekyll/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//design/date-formatting-for-jekyll"> Comments</a></span>
                                 </div>
                                 
-                                <p>Recently, I changed the comment serves from Duoshuo to Disqus on my blog and interested in adding a widget to show the recent comments in the sidebar. Back in the early days, Disqus itself provided an official JavaScript widget but, although it’s still available, it’s officially deprecated. And now you can use the Disqus API to get the raw data, and tailor the raw data exactly to your needs.</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-
-                            <div class="item_content">
-                                <h3><a href="/tips/redirect-http-to-https/">全站SSL，将http重定向到https</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 9, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/redirect-http-to-https/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/redirect-http-to-https"> Comments</a></span>
-                                </div>
-                                
-                                <p>超文本传输协议（HTTP-Hypertext transfer protocol）是一种详细规定了浏览器和万维网服务器之间互相通信的规则，通过因特网传送万维网文档的数据传送协议。而HTTPS（全称：Hypertext Transfer Protocol over Secure Socket Layer），是以安全为目标的http通道，简单讲是http的安全版。即http下加入SSL（Security Socket Layer）层，https的安全基础是SSL，因此加密的详细内容就需要SSL。总的来讲，http效率更高，https安全性更高。</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-
-                            <div class="item_content">
-                                <h3><a href="/journal/blog-encryption-with-openssl/">博客启用https啦</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 9, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/journal/blog-encryption-with-openssl/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//journal/blog-encryption-with-openssl"> Comments</a></span>
-                                </div>
-                                
-                                <p>从今天起，我的博客正式切换到https啦。在浏览器的地址栏中终于有把绿色小锁了，再也不同担心浏览器说网站不安全了，瞬间觉得专业了，有没有。。</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-
-                            <div class="item_content">
-                                <h3><a href="/tips/delete-files-with-looooong-names/">Windows上删除文件路径过长的文件</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 7, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/delete-files-with-looooong-names/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/delete-files-with-looooong-names"> Comments</a></span>
-                                </div>
-                                
-                                <p>好吧，遇到这样的问题也是个学习的机会。今天想要批量压缩博客图片文件以符合PageSpeed Insights的要求，就到处找工具和方法。没想到遇到一个坑。</p>
+                                <p>博客中，经常需要调用文章发表日期，而且需要各种长短不一的日期格式以适配不同的场景。好在Jekyll使用Liquid标记语言来显示日期，可以方便地自定义显示格式，另外其他用到Liquid的地方都能用下面的方法来调整日期显示格式。</p>
                                 
                                 <div class="spacer">><i class="fa fa-paragraph"></i></div>
                             </div>
@@ -327,18 +276,77 @@
                             
 
 <div class="item_header">
-    <iframe width="1280" height="720" src="https://www.youtube.com/embed/8mVbdjec0pA" frameborder="0" allowfullscreen></iframe>
+    <a href="/journal/my-new-camera-om-d-e-m5-ii/"><img src="/images/201603/OM-D E-M5 II.jpg" alt="我的新玩具，OM-D E-M5 Mark II"></a>
 </div>
 
 
                             <div class="item_content">
-                                <h3><a href="/media/Gabrielle-Aplin-Home/">Gabrielle Aplin - Home</a></h3>
+                                <h3><a href="/journal/my-new-camera-om-d-e-m5-ii/">我的新玩具，OM-D E-M5 Mark II</a></h3>
                                 <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 3, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/media/Gabrielle-Aplin-Home/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//media/Gabrielle-Aplin-Home"> Comments</a></span>
+                                    <span><i class="fa fa-clock-o"></i> Mar 5, 2016</span>
+                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/journal/my-new-camera-om-d-e-m5-ii/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//journal/my-new-camera-om-d-e-m5-ii"> Comments</a></span>
                                 </div>
                                 
-                                <p>看完一部电影，听完一首歌，以及经历一个别人的故事，而后感悟一下自己的人生："真正心碎的经历，是你怀着思乡心切的情感回道故乡，却感觉到格格不入时，不是家乡变了，而是你自己变了。"</p>
+                                <p>奥林巴斯OM-D E-M5 Mark II是一台各方面都较为均衡的高配置微单相机，长草已久。这次入手，算来是第二次海淘，不过是第一次转运。终究是没能忍住，价格还没有降到历史最低就入手了，顺丰转运贵了点但是好在速度没有让人失望。</p>
+                                
+                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
+                            </div>
+                        </article>
+                        
+                        <article class="item">
+                            
+
+<div class="item_header">
+    <a href="/tips/how-to-choose-a-license/"><img src="/images/201601/license.png" alt="如何选择合适的开源许可证？"></a>
+</div>
+
+
+                            <div class="item_content">
+                                <h3><a href="/tips/how-to-choose-a-license/">如何选择合适的开源许可证？</a></h3>
+                                <div class="entry_meta">
+                                    <span><i class="fa fa-clock-o"></i> Jan 7, 2016</span>
+                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/how-to-choose-a-license/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/how-to-choose-a-license"> Comments</a></span>
+                                </div>
+                                
+                                <p>将项目与代码开源，可以让更多的人与你共享代码，协同合作，让产品质量更高，更加适应社会的需求。然而，这并不代表该项目是可以被随意甚至是滥用的，想要成为真正的开源项目，不是单单把源代码开放在网上即可，必须在释出的项目当中说明，其代码是以某个开源许可证 (Open Source License) 来进行许可，将特定权利赋予给用户的同时，也规范公众的利用行为，让人们正确的享受开源所带来的好处与乐趣。</p>
+                                
+                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
+                            </div>
+                        </article>
+                        
+                        <article class="item">
+                            
+
+
+                            <div class="item_content">
+                                <h3><a href="/reading/be-happy-with-your-life/">三毛《什么都快乐》</a></h3>
+                                <div class="entry_meta">
+                                    <span><i class="fa fa-clock-o"></i> Jan 7, 2016</span>
+                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/reading/be-happy-with-your-life/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//reading/be-happy-with-your-life"> Comments</a></span>
+                                </div>
+                                
+                                <p>最近被自己折磨得不行，睡眠一直没能调整好，该睡觉的时候却不困，该工作时却萎靡不振。都是前段时间自己不断推迟睡眠造成的，身体都快适应那些做夜猫子的时光了。当然，我要改回来！不能把自己生活想得太悲观了，乐观的看看，积极的生活。</p>
+                                
+                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
+                            </div>
+                        </article>
+                        
+                        <article class="item">
+                            
+
+<div class="item_header">
+    <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/144673626&amp;color=ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>
+</div>
+
+
+                            <div class="item_content">
+                                <h3><a href="/media/Benjamin-Francis-Leftwich-Shine-remixed-by-Kygo/">Benjamin Francis Leftwich - Shine (Kygo Remix)</a></h3>
+                                <div class="entry_meta">
+                                    <span><i class="fa fa-clock-o"></i> Jan 3, 2016</span>
+                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/media/Benjamin-Francis-Leftwich-Shine-remixed-by-Kygo/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//media/Benjamin-Francis-Leftwich-Shine-remixed-by-Kygo"> Comments</a></span>
+                                </div>
+                                
+                                <p>好听的歌不是天天有，这首 Shine 由我非常喜欢的Kygo做的Remix，他在Soundcloud上有不少好听的歌曲，这是我无意间发现的第一首，一听就上瘾。</p>
                                 
                                 <div class="spacer">><i class="fa fa-paragraph"></i></div>
                             </div>
@@ -350,15 +358,15 @@
                     <ul class="page-numbers">
                     
                         
-                        <li><span class="page-numbers"><i class="fa fa-caret-left"></i></li>
+                        <li><a class="previous page-numbers" href="/"><i class="fa fa-caret-left"></i></a></li>
                         
                         
                         
-                        <li><span class="page-numbers current">1</span></li>
+                        <li><a class="page-numbers" href="/page1">1</a></li>
                         
                         
                         
-                        <li><a class="page-numbers" href="/page2">2</a></li>
+                        <li><span class="page-numbers current">2</span></li>
                         
                         
                         
@@ -370,7 +378,7 @@
                         
                         
                         
-                        <li><a class="next page-numbers" href="/page2"><i class="fa fa-caret-right"></i></a></li>
+                        <li><a class="next page-numbers" href="/page3"><i class="fa fa-caret-right"></i></a></li>
                         
                     
                     </ul>
