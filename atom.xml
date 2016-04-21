@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.2">Jekyll</generator><link href="http://note.flinhong.com/atom.xml" rel="self" type="application/atom+xml" /><link href="http://note.flinhong.com/" rel="alternate" type="text/html" /><updated>2016-04-21T05:53:48+00:00</updated><id>http://note.flinhong.com/</id><title>Frank&#39;s Note</title><subtitle>Frank&#39;s Digest</subtitle><author><name>Frank Lin</name></author><entry><title>Example of a Javascript for recent comment widget based on Disqus API</title><link href="http://note.flinhong.com/tips/example-of-js-recent-comments-widget-based-on-disqus-api/" rel="alternate" type="text/html" title="Example of a Javascript for recent comment widget based on Disqus API" /><published>2016-04-13T00:00:00+00:00</published><updated>2016-04-13T00:00:00+00:00</updated><id>http://note.flinhong.com/tips/example-of-js-recent-comments-widget-based-on-disqus-api</id><content type="html" xml:base="http://note.flinhong.com/tips/example-of-js-recent-comments-widget-based-on-disqus-api/">&lt;p&gt;Recently, I changed the comment serves from Duoshuo to Disqus on my blog and interested in adding a widget to show the recent comments in the sidebar. Back in the early days, Disqus itself provided an official JavaScript widget but, although it’s still available, it’s &lt;a href=&quot;https://help.disqus.com/customer/portal/articles/1179651-widgets&quot;&gt;officially deprecated&lt;/a&gt;. And now you can use the &lt;a href=&quot;https://disqus.com/api/docs/&quot;&gt;Disqus API&lt;/a&gt; to get the raw data, and tailor the raw data exactly to your needs.&lt;/p&gt;
+
+&lt;p&gt;Disqus has a pretty complex API, and provides a &lt;a href=&quot;https://github.com/TaltonFiggins/disqus-recent-comments/blob/master/disqus-recent-comments.php&quot;&gt;recent comments sample&lt;/a&gt; written in php. But oddly, I wasn’t able to find many examples of javascript for the API that suitable for a static site like mine.&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-disqus-widget-js&quot;&gt;Disqus widget js&lt;/h2&gt;
+
+&lt;p&gt;In the old way, you can simply using this code to pull the recent comments&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://example.disqus.com/recent_comments_widget.js?num_items=5&amp;amp;hide_mods=0&amp;amp;hide_avatars=0&amp;amp;avatar_size=32&amp;amp;excerpt_length=100&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Just replace the &lt;code class=&quot;highlighter-rouge&quot;&gt;example&lt;/code&gt; to your shortname on Disqus. And detailed configurations can find in this post: &lt;a href=&quot;http://subinsb.com/add-disqus-recent-comments-widget&quot;&gt;How To Add Disqus Recent Comments Widget&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-javascript-widget-based-on-disqus-api&quot;&gt;Javascript widget based on Disqus API&lt;/h2&gt;
+
+&lt;p&gt;The above method works, but it’s not recommended by Disqus. So, let’s move on to the Disqus API.&lt;/p&gt;
+
+&lt;p&gt;To start, you need to create an Application that offers you a &lt;a href=&quot;https://disqus.com/api/applications/&quot;&gt;public Disqus API key&lt;/a&gt;. You won’t need the API secret for the widget, only the API key, which can be publicly exposed on the client side. Remember to review the application settings, you’ll want to enter the domains from where you’ll allow this API key to be used.&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;While there are a number of different APIs provided by Disqus, the &lt;a href=&quot;http://disqus.com/api/docs/forums/listPosts/&quot;&gt;forums/listPosts&lt;/a&gt; API is enough for this case. Disqus considers a site as a forum and posts are your comments. Make note of the various arguments you can pass to this API. For this example, two were important. First, I wanted a smaller number of results so I used limit=3. Secondly, the default results do not provide a way to get back to the original URL where the comment may be seen. Use related=thread to get thread data (and again, for a simple site one thread is one page) which will include the URL.&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; That’s it. Then you need to style the raw data by css that fit your site.&lt;/p&gt;
+
+&lt;p&gt;Here, for my blog site, I used the below lines to pull the recent comments:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;// Disqus comments
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/js/moment.min.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ready&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;$commentDiv&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;#recent-comments&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://disqus.com/api/3.0/forums/listPosts.json?forum=flinhong&amp;amp;limit=3&amp;amp;related=thread&amp;amp;api_key=AG6wxZBFUA8qIso826fmtIrarSr0xUMjOBhMx2xdcWNLeFKbvwBhUwiMzVcFpJ9I&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;code&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dir&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+                &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;timeago&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;moment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;utc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createdAt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;startOf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;minute&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fromNow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+                &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;div class=&#39;comment&#39;&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;img src=&#39;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;avatar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;small&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;permalink&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&#39;&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;a href=&#39;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;profileUrl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&#39;&amp;gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;/a&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot; • &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;timeago&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;p class=&#39;postRef&#39;&amp;gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;raw_message&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;/p&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;p&amp;gt;&amp;lt;span&amp;gt;posted on&amp;lt;/span&amp;gt; &amp;lt;a href=&#39;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;thread&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;link&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&#39;&amp;gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;thread&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;/div&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;$commentDiv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Notice that you should change the &lt;code class=&quot;highlighter-rouge&quot;&gt;forum=flinhong&lt;/code&gt; to you shortname, and replace the &lt;code class=&quot;highlighter-rouge&quot;&gt;api_key&lt;/code&gt; of yours. More arguments can be found in &lt;a href=&quot;https://disqus.com/api/docs/forums/listPosts/&quot;&gt;Disqus’s API documents&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;What’s more, since the return date is formatted as &lt;code class=&quot;highlighter-rouge&quot;&gt;2008-06-10T01:45:27&lt;/code&gt;, I used the &lt;a href=&quot;http://momentjs.com/&quot;&gt;moment js&lt;/a&gt; here to format the date like &lt;code class=&quot;highlighter-rouge&quot;&gt;20 minutes ago&lt;/code&gt; as Disqus does in its comments form. You can preview the output right in the sidebar of this post, in the &lt;code class=&quot;highlighter-rouge&quot;&gt;Popular&lt;/code&gt; tab…&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-api-usage-limits&quot;&gt;API usage limits&lt;/h2&gt;
+
+&lt;p&gt;Disqus imposes a limit of 1000 requests per hour to their API, which can be an important limitation for a site with high traffic. If that’s your case, you should consider caching the results of the API requests so you reduce them. One attempt can be using &lt;a href=&quot;https://github.com/paulirish/jquery-ajax-localstorage-cache&quot;&gt;jquery-ajax-localstorage&lt;/a&gt; so you can cache the requests on the client side. This way, if a visitor of your site sees the widget 10 times, only 1 request will be done and the rest will be cached.&lt;sup id=&quot;fnref:2:1&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;References:&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://subinsb.com/add-disqus-recent-comments-widget&quot;&gt;How To Add Disqus Recent Comments Widget.&lt;/a&gt; &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://jaimeiniesta.com/articles/building-a-disqus-recent-comments-widget-with-javascript/&quot;&gt;Building a Disqus Recent Comments Widget with JavaScript.&lt;/a&gt; &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt; &lt;a href=&quot;#fnref:2:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://www.raymondcamden.com/2014/03/21/Example-of-a-JavaScript-Disqus-Recent-Comment-Widget/&quot;&gt;Example of a JavaScript Disqus Recent Comment Widget.&lt;/a&gt; &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><category term="Tips" /><category term="javascript" /><summary>Recently, I changed the comment serves from Duoshuo to Disqus on my blog and interested in adding a widget to show the recent comments in the sidebar. Back in the early days, Disqus itself provided an official JavaScript widget but, although it’s still available, it’s officially deprecated. And now you can use the Disqus API to get the raw data, and tailor the raw data exactly to your needs.</summary></entry><entry><title>全站SSL，将http重定向到https</title><link href="http://note.flinhong.com/tips/redirect-http-to-https/" rel="alternate" type="text/html" title="全站SSL，将http重定向到https" /><published>2016-04-09T00:00:00+00:00</published><updated>2016-04-09T00:00:00+00:00</updated><id>http://note.flinhong.com/tips/redirect-http-to-https</id><content type="html" xml:base="http://note.flinhong.com/tips/redirect-http-to-https/">&lt;h2 id=&quot;headid-httphttps&quot;&gt;http和https的区别&lt;/h2&gt;
+
+&lt;p&gt;超文本传输协议（HTTP-Hypertext transfer protocol）是一种详细规定了浏览器和万维网服务器之间互相通信的规则，通过因特网传送万维网文档的数据传送协议。而HTTPS（全称：Hypertext Transfer Protocol over Secure Socket Layer），是以安全为目标的http通道，简单讲是http的安全版。即http下加入SSL（Security Socket Layer）层，https的安全基础是SSL，因此加密的详细内容就需要SSL。总的来讲，http效率更高，https安全性更高。&lt;/p&gt;
+
+&lt;p&gt;SSL全称是加密套接字协议层，它位于http协议层和tcp协议层之间，用于建立用户与服务器之间的加密通信，确保所传递信息的安全性，同时SSL安全机制是依靠数字证书来实现的。&lt;/p&gt;
+
+&lt;p&gt;SSL基于公用密钥和私人密钥，用户使用公用密钥来加密数据，但解密数据必须使用相应的私人密钥。使用SSL安全机制的通信过程如下：用户与IIS服务器建立连接后，服务器会把数字证书与公用密钥发送给用户，用户端生成会话密钥，并用公共密钥对会话密钥进行加密，然后传递给服务器，服务器端用私人密钥进行解密，这样，用户端和服务器端就建立了一条安全通道，只有SSL允许的用户才能与IIS服务器进行通信。&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-https&quot;&gt;https协议的安全性&lt;/h2&gt;
+
+&lt;p&gt;https协议是由SSL+http协议构建的可进行加密传输、身份认证的网络协议，其安全性主要体现在以下方面：&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-section&quot;&gt;信任主机&lt;/h3&gt;
+
+&lt;p&gt;采用https的server需要从CA申请一个用于证明服务器用途的证书。该证书只有用于对应的server，客户端才信任此server。客户通过信任该证书，从而信任了改server，虽然这样效率更低，但是安全性更高。&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-section-1&quot;&gt;加密传输数据&lt;/h3&gt;
+
+&lt;p&gt;一般意义上的https，就是server有一个证书。客户端与server通讯时，客户端产生一个对称的密匙，通过server的证书来交换密匙，就是一般意义上的握手过程。&lt;/p&gt;
+
+&lt;p&gt;接下来客户端与server的信息来往都是加密的，即使第三方截获通讯，也没有意义，因为第三方没有密匙。&lt;/p&gt;
+
+&lt;p&gt;但也有https传输也要求客户端也必须有一个证书，这里的客户端证书，就是CA对个人信息的认证，用于server对用户的认证。但是这样的就需要多次握手协议才能认证传输数据。&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-httphttps-1&quot;&gt;http到https重定向&lt;/h2&gt;
+
+&lt;p&gt;大部分网站都采用http作为默认协议，而当网站正确安装了SSL证书之后，如果需要将http重定向到https协议进行传输，可以采用下面这些方法。&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-htaccess&quot;&gt;.htaccess&lt;/h3&gt;
+
+&lt;p&gt;你可以在网站根目录（比如说&lt;code class=&quot;highlighter-rouge&quot;&gt;root&lt;/code&gt;）下创建一个&lt;code class=&quot;highlighter-rouge&quot;&gt;.htaccess&lt;/code&gt;的文件强制使用https协议：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;其中，&lt;code class=&quot;highlighter-rouge&quot;&gt;RewriteEngine On&lt;/code&gt;告诉Apache我们要进行&lt;code class=&quot;highlighter-rouge&quot;&gt;mod_rewrite&lt;/code&gt;。&lt;code class=&quot;highlighter-rouge&quot;&gt;RewriteCond %{HTTPS} off&lt;/code&gt;用以检查是否已经使用了https协议，如果已经使用了https进行传输，下面一行就不必执行了。最后一行&lt;code class=&quot;highlighter-rouge&quot;&gt;RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}&lt;/code&gt;告诉server只需要重写url中第一部分，即&lt;code class=&quot;highlighter-rouge&quot;&gt;http://&lt;/code&gt;改为&lt;code class=&quot;highlighter-rouge&quot;&gt;https://&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-php&quot;&gt;使用php&lt;/h3&gt;
+
+&lt;p&gt;如果你的网站使用php，可以使用以下代码进行重定向：&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;err&quot;&gt;&amp;lt;&lt;/span&gt; ?php
+function redirectTohttps() {
+if($_SERVER[&#39;HTTPS&#39;]!=”on”) {
+$redirect= “https://”.$_SERVER[&#39;HTTP_HOST&#39;].$_SERVER[&#39;REQUEST_URI&#39;];
+header(“Location:$redirect”); } }
+?&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;上面这段就不用讲了吧，参见：&lt;a href=&quot;http://www.phpgenious.com/2009/03/redirect-to-https-ssl-in-php/&quot;&gt;phpgenious.com&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-html-meta-tag&quot;&gt;使用HTML meta tag&lt;/h3&gt;
+
+&lt;p&gt;这种方法并不是最有效，但是如果你不能使用&lt;code class=&quot;highlighter-rouge&quot;&gt;mod rewrite&lt;/code&gt;，那就在html中加一行meta tag吧：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;http-equiv=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Refresh&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0;URL=https://www.example.com&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;用这种方法，需要确保你指定IP的源站（即SSL加密的站点）只监听443端口，然后创建另一个站点，使用同一个IP但只监听80端口。然后在网站根目录下创建一个&lt;code class=&quot;highlighter-rouge&quot;&gt;default.htm&lt;/code&gt; 或 &lt;code class=&quot;highlighter-rouge&quot;&gt;default.asp&lt;/code&gt;文件。&lt;/p&gt;
+
+&lt;p&gt;参见：&lt;a href=&quot;http://raoulpop.com/2007/08/07/automatic-redirect-from-http-to-https/&quot;&gt;raoulpop.com&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-javascript&quot;&gt;使用Javascript&lt;/h3&gt;
+
+&lt;p&gt;如果是类似Jekyll这样的静态站点，由于无法操控服务器端，就可以使用javascript来进行跳转。&lt;/p&gt;
+
+&lt;p&gt;先看看Google的这段代码：&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;ga&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;src&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;https:&#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;location&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;https://ssl&#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;http://www&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;.google-analytics.com/ga.js&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;所以类似地我们也可以在&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;head&amp;gt; tag&lt;/code&gt;中放入下面这段代码：&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+	&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;location&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;indexOf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;http:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;https:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;location&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;参见：&lt;a href=&quot;http://stackoverflow.com/questions/4723213/detect-http-or-https-then-force-https-in-javascript&quot;&gt;Stackoverflow&lt;/a&gt;&lt;/p&gt;</content><category term="Tips" /><category term="https" /><summary>http和https的区别</summary></entry><entry><title>博客启用https啦</title><link href="http://note.flinhong.com/journal/blog-encryption-with-openssl/" rel="alternate" type="text/html" title="博客启用https啦" /><published>2016-04-09T00:00:00+00:00</published><updated>2016-04-09T00:00:00+00:00</updated><id>http://note.flinhong.com/journal/blog-encryption-with-openssl</id><content type="html" xml:base="http://note.flinhong.com/journal/blog-encryption-with-openssl/">&lt;p&gt;从今天起，我的博客正式切换到https啦。在浏览器的地址栏中终于有把绿色小锁了，再也不同担心浏览器说网站不安全了，瞬间觉得专业了，有没有。&lt;/p&gt;
+
+&lt;p&gt;当然，就这个转换我也是做了不少功课的。最开始用&lt;a href=&quot;https://kloudsec.com/&quot;&gt;Kloudsec&lt;/a&gt;，能在GitHub Pages上实现。但是由于K家的系统暂时出了bug，我的账号登出后就再也登不上他家的dashboard，问过他们的开发人员，还没有解决，就只能自己找其他途径了。&lt;/p&gt;
+
+&lt;p&gt;GitHub Pages目前还没能支持自定义域名的https访问，所以先暂时把博客托管在GitLab上，若GitHub什么时候更新了，再说吧，扯远了。&lt;/p&gt;
+
+&lt;p&gt;不过，测试过程也发现需要所有引用资源都是https，为此我停掉了多说的评论框，以后引用图片什么的也要多注意注意了。&lt;/p&gt;
+
+&lt;p&gt;但是GitLab的访问速度不是特别理想，可能需要再尝试用一下CDN了。&lt;/p&gt;</content><category term="Journal" /><category term="https" /><summary>从今天起，我的博客正式切换到https啦。在浏览器的地址栏中终于有把绿色小锁了，再也不同担心浏览器说网站不安全了，瞬间觉得专业了，有没有。</summary></entry><entry><title>Windows上删除文件路径过长的文件</title><link href="http://note.flinhong.com/tips/delete-files-with-looooong-names/" rel="alternate" type="text/html" title="Windows上删除文件路径过长的文件" /><published>2016-04-07T00:00:00+00:00</published><updated>2016-04-07T00:00:00+00:00</updated><id>http://note.flinhong.com/tips/delete-files-with-looooong-names</id><content type="html" xml:base="http://note.flinhong.com/tips/delete-files-with-looooong-names/">&lt;p&gt;好吧，遇到这样的问题也是个学习的机会。今天想要批量压缩博客图片文件以符合PageSpeed Insights的要求，就到处找工具和方法。没想到遇到一个坑。&lt;/p&gt;
+
+&lt;p&gt;在GitHub上找到个软件叫&lt;a href=&quot;https://github.com/stormtea123/hummingbird&quot;&gt;hummingbird&lt;/a&gt;，看起来UI还可以，就顺手下载了，结果并不满足自己的要求。待到要删除的时候发现文件路径太长，&lt;del&gt;软件作者嵌套了太多层文件夹&lt;/del&gt;，应该是&lt;code class=&quot;highlighter-rouge&quot;&gt;Gruntjs&lt;/code&gt;在做怪，我在使用时也发现生成了好多目录，Windows资源管理器不让删除，折腾了好久都没搞定。并且路径过长的文件残余太多，不能一个一个删呀，只能求教Google了。&lt;/p&gt;
+
+&lt;p&gt;原来遇到一样问题的同学不止是我一个呀，有同学写程序的时候出现了递归，创建了n多超级长的文件夹和文件，无论正常模式下，还是DOS下，都无法删除某些递归出现的文件夹和文件😂。所以就找到微软的&lt;a href=&quot;https://technet.microsoft.com/en-us/library/cc733145.aspx&quot;&gt;Robocopy&lt;/a&gt;这个复制工具。&lt;/p&gt;
+
+&lt;p&gt;Robocopy是Microsoft在Windows Server 2003 Resource Kit Tools中提供的小工具，安装&lt;a href=&quot;https://www.microsoft.com/en-us/download/details.aspx?id=17657&quot;&gt;Windows Server 2003 Resource Kit Tools&lt;/a&gt;既能获得。&lt;/p&gt;
+
+&lt;p&gt;OK，装好工具就来删除这些令人心烦的文件吧。假如超长文件夹的路径是&lt;code class=&quot;highlighter-rouge&quot;&gt;D:\path_to_del\abc\abc\abc.....&lt;/code&gt;，那么执行下面的步骤：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;在&lt;code class=&quot;highlighter-rouge&quot;&gt;D:\path_to_del\&lt;/code&gt;下新建一个空的文件夹，例如：&lt;code class=&quot;highlighter-rouge&quot;&gt;D:\path_to_del\blank_folder\&lt;/code&gt;。&lt;/li&gt;
+  &lt;li&gt;打开命令提示符：&lt;code class=&quot;highlighter-rouge&quot;&gt;Win+R&lt;/code&gt;，输入&lt;code class=&quot;highlighter-rouge&quot;&gt;cmd&lt;/code&gt;；或者在&lt;code class=&quot;highlighter-rouge&quot;&gt;D:\path_to_del\&lt;/code&gt;文件夹中按住&lt;code class=&quot;highlighter-rouge&quot;&gt;Shift&lt;/code&gt;右击鼠标，在弹出的右键菜单中选择在&lt;code class=&quot;highlighter-rouge&quot;&gt;在此处打开命令窗口&lt;/code&gt;。&lt;/li&gt;
+  &lt;li&gt;如果你是直接打开命令提示符，使用&lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt;命令将路径切换到&lt;code class=&quot;highlighter-rouge&quot;&gt;D:\path_to_del\&lt;/code&gt;。&lt;/li&gt;
+  &lt;li&gt;输入：&lt;code class=&quot;highlighter-rouge&quot;&gt;Robocopy /MIR abc blank_folder&lt;/code&gt;，就会把&lt;code class=&quot;highlighter-rouge&quot;&gt;path_to_del&lt;/code&gt;下的第一个&lt;code class=&quot;highlighter-rouge&quot;&gt;abc&lt;/code&gt;文件夹的目录结构按&lt;code class=&quot;highlighter-rouge&quot;&gt;blank_folder&lt;/code&gt;的结构复写，也就是把&lt;code class=&quot;highlighter-rouge&quot;&gt;path_to_del\abc\&lt;/code&gt;变成了空文件夹，赞！&lt;/li&gt;
+  &lt;li&gt;等待命令执行完（文件太多，屏幕一直在滚动，看着好爽）。&lt;/li&gt;
+  &lt;li&gt;命令执行完成后，统统删除！&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;Robocopy还有很多有趣的命令，&lt;a href=&quot;https://technet.microsoft.com/en-us/library/cc733145.aspx&quot;&gt;微软&lt;/a&gt;网站上有详细介绍，先mark一下，有用再说，哈哈🙂。&lt;/p&gt;
+
+&lt;p&gt;另外，批量压缩图片还是用&lt;code class=&quot;highlighter-rouge&quot;&gt;Gruntjs&lt;/code&gt;工具完成的，有时间单独说说这个，压缩效率不错。&lt;/p&gt;</content><category term="Tips" /><category term="Windows" /><category term="tools" /><summary>好吧，遇到这样的问题也是个学习的机会。今天想要批量压缩博客图片文件以符合PageSpeed Insights的要求，就到处找工具和方法。没想到遇到一个坑。</summary></entry><entry><title>Gabrielle Aplin - Home</title><link href="http://note.flinhong.com/media/Gabrielle-Aplin-Home/" rel="alternate" type="text/html" title="Gabrielle Aplin - Home" /><published>2016-04-03T00:00:00+00:00</published><updated>2016-04-03T00:00:00+00:00</updated><id>http://note.flinhong.com/media/Gabrielle-Aplin-Home</id><content type="html" xml:base="http://note.flinhong.com/media/Gabrielle-Aplin-Home/">&lt;p&gt;看完一部电影，听完一首歌，以及经历一个别人的故事，而后感悟一下自己的人生。&lt;/p&gt;
+
+&lt;p&gt;Gabrielle Aplin的这首&lt;em&gt;Home&lt;/em&gt;是在看电影&lt;em&gt;&lt;a href=&quot;https://movie.douban.com/subject/10741220/&quot;&gt;Brooklyn&lt;/a&gt;&lt;/em&gt;的预告片的时候听到的，觉得这首歌旋律很好，跟上预告片的情节倒是影片和歌曲一起喜欢上了，没想到细细品味之后发现歌曲和影片契合得这么好。&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Brooklyn&lt;/em&gt;中有一段是为无家可归的爱尔兰老人举办的圣诞节聚餐上的，Eilis问神父：Why don’t they go home? 神父回答：If there’s nothing there for a clever young girl such as yourself, there’s gonna be even less for men like these. Some of them have been here fifty years, that have lost touch with everyone. These are the man who built the tunnels, the bridges, the highways. God alone knows what they live on now.&lt;/p&gt;
+
+&lt;p&gt;然后老人清唱爱尔兰民谣（倒是让我想起中孝介岛国唱腔），一群思乡的人眼泛泪花，聊以安慰。&lt;/p&gt;
+
+&lt;p&gt;“真正心碎的经历，是你怀着思乡心切的情感回道故乡，却感觉到格格不入时，不是家乡变了，而是你自己变了。”这就是&lt;em&gt;Brooklyn&lt;/em&gt;作者对乡情的描述了，而&lt;em&gt;Home&lt;/em&gt;中唱到&lt;/p&gt;
+
+&lt;blockquote class=&quot;alt&quot;&gt;
+  &lt;p&gt;Cause they say: home is where your heart is set in stone&lt;/p&gt;
+
+  &lt;p&gt;Is where you go when you’re alone&lt;/p&gt;
+
+  &lt;p&gt;Is where you go to rest your bones&lt;/p&gt;
+
+  &lt;p&gt;It’s not just where you lay your head&lt;/p&gt;
+
+  &lt;p&gt;It’s not just where you make your bed&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/201604/brooklyn.jpg&quot; alt=&quot;Brooklyn 剧照&quot; /&gt;
+&lt;em&gt;Brooklyn 剧照&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;每一个离开家乡的人，都将无一例外的经历心灵的蜕变，从不安失落的离家者，变成独立坚强的城市人。脱下的是不安与自卑，换上的是自信与魅力。人生的十字路口，选择留守还是创造，没有对错，只有无悔。人生从来都不是轻而易举，选择什么就会失去什么。但时间是公平的，你把时间花在哪儿，哪里就开出花来。我想留学在外的同学们看到这部电影，听到这首歌都会心下决定吧。&lt;/p&gt;
+
+&lt;p&gt;单说到这首歌，我觉得Gabrielle Aplin的MV里的情景远不及电影里面的情节，还是看下面这个预告片听这首歌最有感觉了。&lt;/p&gt;
+
+&lt;iframe width=&quot;1280&quot; height=&quot;720&quot; src=&quot;https://www.youtube.com/embed/hn5KqHzPWrQ&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;</content><category term="Media" /><category term="Brooklyn" /><category term="movie" /><category term="music" /><summary>看完一部电影，听完一首歌，以及经历一个别人的故事，而后感悟一下自己的人生。</summary></entry><entry><title>Jekyll中的日期格式</title><link href="http://note.flinhong.com/design/date-formatting-for-jekyll/" rel="alternate" type="text/html" title="Jekyll中的日期格式" /><published>2016-03-09T00:00:00+00:00</published><updated>2016-03-09T00:00:00+00:00</updated><id>http://note.flinhong.com/design/date-formatting-for-jekyll</id><content type="html" xml:base="http://note.flinhong.com/design/date-formatting-for-jekyll/">&lt;p&gt;博客中，经常需要调用文章发表日期，而且需要各种长短不一的日期格式以适配不同的场景。好在Jekyll使用Liquid标记语言来显示日期，可以方便地自定义显示格式，另外其他用到Liquid的地方都能用下面的方法来调整日期显示格式。&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-liquid&quot;&gt;Liquid默认样式&lt;/h2&gt;
+
+&lt;p&gt;Jekyll使用Shopify’s Liquid Template Engine&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;，显示日期可以直接使用Liquid tag: &lt;code class=&quot;highlighter-rouge&quot;&gt;page.date&lt;/code&gt;，当然外面加上双大括号，（我这里如果直接使用Liquid tag，就直接显示结果了，所有这里和下文都不加大括号了。）这种默认格式显示结果为：&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-liquid&quot; data-lang=&quot;liquid&quot;&gt;page.date
+2016-03-09 00:00:00 +0000&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;当然，一般情况下很少去定义一个文章post上去的具体时间，所以看到的time都是&lt;code class=&quot;highlighter-rouge&quot;&gt;00:00:00&lt;/code&gt;。如果对上面的默认tag加以修饰，就能生成各种不同格式的日期样式，更方便我们查看。例如，加上一个&lt;code class=&quot;highlighter-rouge&quot;&gt;date:&lt;/code&gt;的filter，我们就可以只取日期而不取时间，这也是我们最常使用的，比如下面的样式：&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-liquid&quot; data-lang=&quot;liquid&quot;&gt;page.date | date: &#39;%B %d, %Y&#39;
+March 09, 2016
+
+page.date | date: &#39;%b %d, %Y&#39;
+Mar 09, 2016
+
+page.date | date: &#39;%b %-d, %Y&#39;
+Mar 9, 2016
+
+page.date | date: &#39;%Y-%m-%d&#39;
+2016-03-09&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;用到上面这些其实已经相当足够了，可以按自己的需要做各种定义。当然还可以对结果进一步处理，具体可参见Jekyll Date Formatting Examples&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;中更多的示例。这篇文章也主要是简单做个总结，方便自己参考。&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-jekyll&quot;&gt;Jekyll内置样式&lt;/h2&gt;
+
+&lt;h3 id=&quot;headid-date-to-string&quot;&gt;Date to String&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-liquid&quot; data-lang=&quot;liquid&quot;&gt;page.date | date_to_string
+09 Mar 2016
+
+Output Example 1: 03 May 2016
+Output Example 2: 04 Jul 2016
+Output Example 3: 23 Sep 2016
+Output Example 4: 26 Nov 2016&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;headid-date-to-long-string&quot;&gt;Date to Long String&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-liquid&quot; data-lang=&quot;liquid&quot;&gt;page.date | date_to_long_string
+09 March 2016
+
+Output Example 1: 03 May 2016
+Output Example 2: 04 July 2016
+Output Example 3: 23 September 2016
+Output Example 4: 26 November 2016&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;headid-date-to-xml-schema&quot;&gt;Date to XML Schema&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-liquid&quot; data-lang=&quot;liquid&quot;&gt;page.date | date_to_xmlschema
+2016-03-09T00:00:00+00:00
+
+Output Example 1: 2016-05-03T09:14:00-04:00
+Output Example 2: 2016-07-04T09:14:00-04:00
+Output Example 3: 2016-09-23T09:14:00-04:00
+Output Example 4: 2016-11-26T08:14:00-05:00&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;headid-date-to-rfc-822&quot;&gt;Date to RFC-822&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-liquid&quot; data-lang=&quot;liquid&quot;&gt;page.date | date_to_rfc822
+Wed, 09 Mar 2016 00:00:00 +0000
+
+Output Example 1: Fri, 03 May 2016 09:14:00 -0400
+Output Example 2: Thu, 04 Jul 2016 09:14:00 -0400
+Output Example 3: Mon, 23 Sep 2016 09:14:00 -0400
+Output Example 4: Tue, 26 Nov 2016 08:14:00 -0500&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;headid-jekyllliquid&quot;&gt;Jekyll中自定义Liquid定义样式&lt;/h2&gt;
+
+&lt;h3 id=&quot;headid-section&quot;&gt;非英文月份&lt;/h3&gt;
+
+&lt;p&gt;Outside U.S. Style with Non-English Full Month Name，这里就用中文简单举例好了，其实很不适合中文呢，不过大概意思就是这样了。&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/flinhong/2e903284c59e84abbccb.js&quot;&gt;&lt;/script&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-liquid&quot; data-lang=&quot;liquid&quot;&gt;三月9号，2016&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;headid-section-1&quot;&gt;英文有序日期&lt;/h3&gt;
+
+&lt;p&gt;U.S. Style with Full Month Names and Ordinalized Days:
+&lt;script src=&quot;https://gist.github.com/flinhong/533a14966a01cddd60c4.js&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-liquid&quot; data-lang=&quot;liquid&quot;&gt;Output Example 1: May 3rd, 2016
+Output Example 2: July 4th, 2016 
+Output Example 3: September 23rd, 2016 
+Output Example 4: November 26th, 2016&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;headid-section-2&quot;&gt;英文月份缩写&lt;/h3&gt;
+
+&lt;p&gt;U.S. Style with AP Month Abbreviations and Ordinalized Days:
+&lt;script src=&quot;https://gist.github.com/flinhong/ab6fd80d7eae4164529f.js&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-liquid&quot; data-lang=&quot;liquid&quot;&gt;Output Example 1: May 3rd, 2016
+Output Example 2: July 4th, 2016 
+Output Example 3: Sept. 23rd, 2016
+Output Example 4: Nov. 26th, 2016&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;headid-section-3&quot;&gt;英文加上星期&lt;/h3&gt;
+
+&lt;p&gt;U.S. Style Full Day and Full Month Names:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-liquid&quot; data-lang=&quot;liquid&quot;&gt;page.date | date: &quot;%A, %B %-d, %Y&quot;
+Wednesday, March 9, 2016
+
+Output Example 1: Friday, May 3, 2016
+Output Example 2: Thursday, July 4, 2016 
+Output Example 3: Monday, September 23, 2016 
+Output Example 4: Tuesday, November 26, 2016&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;headid-section-4&quot;&gt;英文星期缩写&lt;/h3&gt;
+
+&lt;p&gt;Chicago Manual of Style Day Abbreviations and U.S. Style Date:
+&lt;script src=&quot;https://gist.github.com/flinhong/837b5d9fc307e86f3166.js&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-liquid&quot; data-lang=&quot;liquid&quot;&gt;Output Example 1: Fri. ~ May 3, 2016
+Output Example 2: Thurs. ~ July 4, 2016
+Output Example 3: Mon. ~ September 23, 2016 
+Output Example 4: Tues. ~ November 26, 2016&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;真是不看不知道，一看吓一跳，前辈们真是好好和时间约了一次，才有现在这些结果🐤。&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Footnotes&lt;/em&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://wiki.shopify.com/Liquid&quot;&gt;Shopify’s Liquid template engine&lt;/a&gt;. “A small and fast template language which is quick to learn but very powerful for full customization.” &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://alanwsmith.com/jekyll-liquid-date-formatting-examples&quot;&gt;Jekyll Date Formatting Examples&lt;/a&gt;. “Everything you wanted to know about Jekyll date formatting but were afraid to ask.” &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><category term="Design" /><category term="jekyll" /><category term="date formatting" /><summary>博客中，经常需要调用文章发表日期，而且需要各种长短不一的日期格式以适配不同的场景。好在Jekyll使用Liquid标记语言来显示日期，可以方便地自定义显示格式，另外其他用到Liquid的地方都能用下面的方法来调整日期显示格式。</summary></entry><entry><title>我的新玩具，OM-D E-M5 Mark II</title><link href="http://note.flinhong.com/journal/my-new-camera-om-d-e-m5-ii/" rel="alternate" type="text/html" title="我的新玩具，OM-D E-M5 Mark II" /><published>2016-03-05T00:00:00+00:00</published><updated>2016-03-05T00:00:00+00:00</updated><id>http://note.flinhong.com/journal/my-new-camera-om-d-e-m5-ii</id><content type="html" xml:base="http://note.flinhong.com/journal/my-new-camera-om-d-e-m5-ii/">&lt;p&gt;奥林巴斯OM-D E-M5 Mark II是一台各方面都较为均衡的高配置微单相机，长草已久。这次入手，算来是第二次海淘，不过是第一次转运。终究是没能忍住，价格还没有降到历史最低就入手了，顺丰转运贵了点但是好在速度没有让人失望。&lt;/p&gt;
+
+&lt;p&gt;本不想花这么多钱在相机上的，但去店里把玩了一番E-M10和E-M5，就放不下E-M5了。我也不是奥巴粉，但相信自己的第一感觉，那就对了，管他什么底小被人欺的，我喜欢还就好。好随便的一个人~&lt;/p&gt;
+
+&lt;p&gt;长草容易，拔草难，钱包从来就是惹我害羞之物，只能一等再等，终于到可以接受的价格了，果断入手，好在香港不用掏关税，轻松到手。&lt;/p&gt;
+
+&lt;p&gt;之前看过网友的开箱，我本来也想来一个的。不过，太懒，盒子什么的直接扔了，留下一堆日文的说明书之类的，囧囧的。&lt;/p&gt;
+
+&lt;p&gt;还在修行说明书，以后也多看看高人的摄影作品，物尽其用，做个能拍照的人。&lt;/p&gt;
+
+&lt;p&gt;那么来说说这台相机吧。奥林巴斯OM-D系列是其经典OM系列胶片相机的数码化重生，在拥有复古靓丽的外形之余，还具备紧凑、轻便、防尘防水溅的机身，并且在配置和操控方面也具有较高的专业性。&lt;/p&gt;
+
+&lt;p&gt;OM-D E-M5 Mark II继续沿用前代的1610万像素传感器，但图像处理器升级到最新的TruePIC VII，感光度ISO 100-25600，81点自动对焦系统，最高连拍速度10张/秒，最高电子快门速度达到1/16000秒。特殊的高分辨率模式让传感器以0.5像素步进位移，可拍摄合成6400万像素RAW和4000万像素JPEG格式照片，并对五轴防抖系统进行了升级，最多可提供约5档曝光补偿。防抖这点我是非常喜欢的。&lt;/p&gt;
+
+&lt;p&gt;OM-D E-M5 Mark II背面搭载一块104万像素三英寸可旋转触摸屏，最大的不同是由前代的上下翻转改为左右翻转，可水平旋转270度、垂直旋转180度的灵活角度。触控用得少，毕竟要两只手来操作，还是按键用起来顺手。&lt;/p&gt;
+
+&lt;p&gt;OM-D E-M5 Mark II的电子取景器较前代比具有更大的尺寸和更高的精细程度，分辨率高达236万像素，拥有约100%的视场率，以及1.48倍的放大倍率，并且可以根据环境照明自动调整背光亮度的亮度自动调整。取景器右侧搭载了眼部传感器，可自动切换背面液晶屏和电子取景器，各种艺术滤镜效果等也可在电子取景器内确认。这个取景器就是我果断抛弃EM-10的主要原因，大爱这个。&lt;/p&gt;
+
+&lt;p&gt;OM-D E-M5 Mark II具有较为紧凑的外形设计，亮眼的复古造型搭配镁合金确保机身的坚固性，与底部的铝制金属材质相结合，是高品质和高强度的双重保证。可靠性强的防尘防水溅结构，可在不同天气和环境条件下进行拍摄，一同配的M.Zuiko Digital ED 14-150mm f4.0-5.6 II镜头，同样具有超强的防尘防水溅性能，与之搭配的各种配件也都具有相同的防尘防水溅性能。配件什么的买不起，不过防水还是挺好的。&lt;/p&gt;
+
+&lt;p&gt;OM-D E-M5 Mark II搭载的是经过加强的五轴防抖系统，能够有效补偿内置镜头防抖所无法修正的照相机滚动，以及微距摄影时易发生的水平/垂直位移，并且搭载半按快门释放防抖功能，可以在取景器中查看防抖效果，因此在低光照或慢门情况时，可以安心手持拍摄而不必担心相机抖动，从而确保稳定的构图。防抖必须有好呀，我这么瘦弱的人~&lt;/p&gt;
+
+&lt;p&gt;再来两张相机的帅照吧，相机拍的照片以后再说🙂。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.ytimg.com/vi/Z-ANXjJYjHE/maxresdefault.jpg&quot; alt=&quot;顶部&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://cache.olympusamerica.com/static/getolympus/products/em5markII/images/overview_panel7_bg.jpg&quot; alt=&quot;全副武装&quot; /&gt;
+&lt;em&gt;Photos from &lt;a href=&quot;http://www.getolympus.com/us/en/e-m5-mark-ii.html&quot;&gt;GetOlympus&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</content><category term="Journal" /><category term="Olympus" /><summary>奥林巴斯OM-D E-M5 Mark II是一台各方面都较为均衡的高配置微单相机，长草已久。这次入手，算来是第二次海淘，不过是第一次转运。终究是没能忍住，价格还没有降到历史最低就入手了，顺丰转运贵了点但是好在速度没有让人失望。</summary></entry><entry><title>如何选择合适的开源许可证？</title><link href="http://note.flinhong.com/tips/how-to-choose-a-license/" rel="alternate" type="text/html" title="如何选择合适的开源许可证？" /><published>2016-01-07T00:00:00+00:00</published><updated>2016-01-07T00:00:00+00:00</updated><id>http://note.flinhong.com/tips/how-to-choose-a-license</id><content type="html" xml:base="http://note.flinhong.com/tips/how-to-choose-a-license/">&lt;p&gt;将项目与代码开源，可以让更多的人与你共享代码，协同合作，让产品质量更高，更加适应社会的需求。然而，这并不代表该项目是可以被随意甚至是滥用的，想要成为真正的开源项目，不是单单把源代码开放在网上即可，必须在释出的项目当中说明，其代码是以某个开源许可证 (Open Source License) 来进行许可，将特定权利赋予给用户的同时，也规范公众的利用行为，让人们正确的享受开源所带来的好处与乐趣。&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-section&quot;&gt;开源许可证是什么&lt;/h2&gt;
+
+&lt;p&gt;为了维护作者和贡献者的合法权利，保证这些软件不被一些商业机构或个人窃取，影响软件的发展，开源社区开发出了各种的开源许可协议。许可证是具有法律效应的协议，目前已有超过 70 种被开放源代码促进会 (Open Source Initiative, OSI) 通过，GNU上有个&lt;a href=&quot;http://www.gnu.org/licenses/license-list.html&quot;&gt;网页&lt;/a&gt;，上面记录了几乎所有的开源软件的许可证，有开源的，有商用的，有软件的，有文档的，多得你都不想看了，不过，常见的开源许可协议也就几种——GPL、LGPL、BSD、Apache Licence vesion 2.0、MIT等等。&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-section-1&quot;&gt;如何选择开源许可证&lt;/h2&gt;
+
+&lt;p&gt;如何在这么多的许可证中选取一个适合自己项目的呢？我们可以通过下面这张图清晰地了解：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/201601/free_software_licenses.png&quot; alt=&quot;选择开源许可协议&quot; /&gt;
+&lt;em&gt;图片来源于阮一峰的博客。&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;当然，这里主要针对的是源代码类型的。而下面这张图囊括的范围更大：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/201601/choosing_license.jpg&quot; alt=&quot;Choosing Licenses&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-section-2&quot;&gt;常见的几种许可协议&lt;/h2&gt;
+
+&lt;h3 id=&quot;headid-bsd&quot;&gt;BSD&lt;/h3&gt;
+&lt;p&gt;BSD开源协议是一个给于使用者很大自由的协议。基本上使用者可以”为所欲为”，可以自由的使用，修改源代码，也可以将修改后的代码作为开源或者专有软件再发布。&lt;/p&gt;
+
+&lt;p&gt;但”为所欲为”的前提当你发布使用了BSD协议的代码，或则以BSD协议代码为基础做二次开发自己的产品时，需要满足三个条件：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;如果再发布的产品中包含源代码，则在源代码中必须带有原来代码中的BSD协议。&lt;/li&gt;
+  &lt;li&gt;如果再发布的只是二进制类库/软件，则需要在类库/软件的文档和版权声明中包含原来代码中的BSD协议。&lt;/li&gt;
+  &lt;li&gt;不可以用开源代码的作者/机构名字和原来产品的名字做市场推广。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;BSD协议鼓励代码共享，但需要尊重代码作者的著作权。BSD由于允许使用者修改和重新发布代码，也允许使用或在BSD代码上开发商业软件发布和销售，因此是对商业集成很友好的协议。而很多的公司企业在选用开源产品的时候都首选BSD协议，因为可以完全控制这些第三方的代码，在必要的时候可以修改或者二次开发。&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-apache-licence&quot;&gt;Apache Licence&lt;/h3&gt;
+&lt;p&gt;Apache Licence是著名的非盈利开源组织Apache采用的协议。该协议和BSD类似，同样鼓励代码共享和尊重原作者的著作权，同样允许代码修改，再发布（作为开源或商业软件）。需要满足的条件也和BSD类似：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;需要给代码的用户一份Apache Licence&lt;/li&gt;
+  &lt;li&gt;如果你修改了代码，需要再被修改的文件中说明。&lt;/li&gt;
+  &lt;li&gt;在延伸的代码中（修改和有源代码衍生的代码中）需要带有原来代码中的协议，商标，专利声明和其他原来作者规定需要包含的说明。&lt;/li&gt;
+  &lt;li&gt;如果再发布的产品中包含一个Notice文件，则在Notice文件中需要带有Apache Licence。你可以在Notice中增加自己的许可，但不可以表现为对Apache Licence构成更改。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Apache Licence也是对商业应用友好的许可。使用者也可以在需要的时候修改代码来满足需要并作为开源或商业产品发布/销售。&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-gpl&quot;&gt;GPL&lt;/h3&gt;
+&lt;p&gt;GPL（GNU General Public License）协议和BSD, Apache Licence等鼓励代码重用的许可很不一样。GPL的出发点是代码的开源/免费使用和引用/修改/衍生代码的开源/免费使用，但不允许修改后和衍生的代码做为闭源的商业软件发布和销售。这也就是为什么我们能用免费的各种linux，包括商业公司的linux和linux上各种各样的由个人，组织，以及商业软件公司开发的免费软件了。&lt;/p&gt;
+
+&lt;p&gt;GPL协议的主要内容是只要在一个软件中使用(“使用”指类库引用，修改后的代码或者衍生代码)GPL协议的产品，则该软件产品必须也采用GPL协议，既必须也是开源和免费。这就是所谓的”传染性”。GPL协议的产品作为一个单独的产品使用没有任何问题，还可以享受免费的优势。&lt;/p&gt;
+
+&lt;p&gt;由于GPL严格要求使用了GPL类库的软件产品必须使用GPL协议，对于使用GPL协议的开源代码，商业软件或者对代码有保密要求的部门就不适合集成/采用作为类库和二次开发的基础。&lt;/p&gt;
+
+&lt;p&gt;其它细节如再发布的时候需要伴随GPL协议等和BSD/Apache等类似。&lt;/p&gt;
+
+&lt;p&gt;我们很熟悉的Linux就是采用了GPL。&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-lgpl&quot;&gt;LGPL&lt;/h3&gt;
+&lt;p&gt;LGPL（GNU Lesser General Public License）是GPL的一个为主要为类库使用设计的开源协议。和GPL要求任何使用/修改/衍生之GPL类库的的软件必须采用GPL协议不同。LGPL允许商业软件通过类库引用(link)方式使用LGPL类库而不需要开源商业软件的代码。这使得采用LGPL协议的开源代码可以被商业软件作为类库引用并发布和销售。&lt;/p&gt;
+
+&lt;p&gt;但是如果修改LGPL协议的代码或者衍生，则所有修改的代码，涉及修改部分的额外代码和衍生的代码都必须采用LGPL协议。因此LGPL协议的开源代码很适合作为第三方类库被商业软件引用，但不适合希望以LGPL协议代码为基础，通过修改和衍生的方式做二次开发的商业软件采用。&lt;/p&gt;
+
+&lt;p&gt;GPL/LGPL都保障原作者的知识产权，避免有人利用开源代码复制并开发类似的产品&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-mpl&quot;&gt;MPL&lt;/h3&gt;
+&lt;p&gt;MPL（Mozilla Public License）是1998年初Netscape的Mozilla小组为其开源软件项目设计的软件许可证。MPL许可证出现的最重要原因就是，Netscape公司认为GPL许可证没有很好地平衡开发者对源代码的需求和他们利用源代码获得的利益。同著名的GPL许可证和BSD许可证相比，MPL在许多权利与义务的约定方面与它们相同（因为都是符合OSIA认定的开源软件许可证）。但是，相比而言MPL还有以下几个显著的不同之处：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;MPL虽然要求对于经MPL许可证发布的源代码的修改也要以MPL许可证的方式再许可出来，以保证其他人可以在MPL的条款下共享源代码。但是，在MPL许可证中对“发布”的定义是“以源代码方式发布的文件”，这就意味着MPL允许一个企业在自己已有的源代码库上加一个接口，除了接口程序的源代码以MPL许可证的形式对外许可外，源代码库中的源代码就可以不用MPL许可证的方式强制对外许可。这些，就为借鉴别人的源代码用做自己商业软件开发的行为留了一个豁口。&lt;/li&gt;
+  &lt;li&gt;MPL许可证第三条第7款中允许被许可人将经过MPL许可证获得的源代码同自己其他类型的代码混合得到自己的软件程序。&lt;/li&gt;
+  &lt;li&gt;对软件专利的态度，MPL许可证不像GPL许可证那样明确表示反对软件专利，但是却明确要求源代码的提供者不能提供已经受专利保护的源代码（除非他本人是专利权人，并书面向公众免费许可这些源代码），也不能在将这些源代码以开放源代码许可证形式许可后再去申请与这些源代码有关的专利。&lt;/li&gt;
+  &lt;li&gt;对源代码的定义是:“源代码指的是对作品进行修改最优先择取的形式，它包括:所有模块的所有源程序，加上有关的接口的定义，加上控制可执行作品的安装和编译的‘原本’（原文为‘Script’），或者不是与初始源代码显著不同的源代码就是被源代码贡献者选择的从公共领域可以得到的程序代码。”&lt;/li&gt;
+  &lt;li&gt;MPL许可证第3条有专门的一款是关于对源代码修改进行描述的规定，就是要求所有再发布者都得有一个专门的文件就对源代码程序修改的时间和修改的方式有描述。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;headid-mit&quot;&gt;MIT&lt;/h3&gt;
+&lt;p&gt;MIT许可证之名源自麻省理工学院（Massachusetts Institute of Technology, MIT），又称「X条款」（X License）或「X11条款」（X11 License）。MIT与BSD类似，但是比BSD协议更加宽松，是目前最少限制的协议。你必须在你的发行版里包含原许可协议的声明，无论你是以二进制发布的还是以源代码发布的。使用MIT的软件项目有：jquery、Node.js。&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-creative-commons&quot;&gt;Creative Commons&lt;/h3&gt;
+&lt;p&gt;CC（Creative Commons，中国正式名称为知识共享）是网络上的数字作品（文学、美术、音乐等）许可授权机制，它致力于让任何创造性作品都有机会被更多人分享和再创造，共同促进人类知识作品在其生命周期内产生最大价值。由知识共享组织（CreativeCommons.org）发起，它是一家非营利性组织，于2001年在斯坦福大学成立。CC协议是该组织所提供一系列弹性著作权授权方式的名称，并在全球越来越多地区被广泛采纳，CNBlog.org是CreativeCommons.org在中文领域的授权机构，负责管理、维护和提供中文数字作品的“创作共用”授权服务。&lt;/p&gt;
+
+&lt;p&gt;CC协议可以将以下的选项进行组合、搭配，由此将构成六套核心知识共享许可协议。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;署名： 您允许他人对自己享有著作权的作品及演绎作品进行复制、发行、展览、表演、放映、广播或通过信息网络向公众传播，但在这些过程中对方必须保留您对原作品的署名。&lt;/li&gt;
+  &lt;li&gt;非商业性使用：您允许他人对您享有著作权的作品及演绎作品进行复制、发行、展览、表演、放映、广播或通过信息网络向公众传播，但仅限于非商业性目的。&lt;/li&gt;
+  &lt;li&gt;禁止演绎：您允许他人对您的作品原封不动地进行复制、发行、展览、表演、放映、广播或通过信息网络向公众传播，但不得进行演绎创作。&lt;/li&gt;
+  &lt;li&gt;相同方式共享：只有在他人对演绎作品使用与您的原作品相同的许可协议的情况下，您才允许他人发行其演绎作品。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;注：许可协议协议不能同时包含“相同方式共享”和“禁止演绎”许可要素，“相同方式共享”要素仅适用于演绎作品。&lt;/p&gt;
+
+&lt;p&gt;参考内容：&lt;/p&gt;
+
+&lt;ol class=&quot;footnotes&quot;&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://blog.gitcafe.com/?p=636&quot;&gt;GitCafe Blog&lt;/a&gt;：“给你的项目添加一个合适的开源许可证”&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://www.lanceyan.com/tech/arch/opensource_permission.html&quot;&gt;严澜(lanceyan)的博客&lt;/a&gt;：“实战做项目如何选择开源许可协议（一）-了解协议”&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://creativecommons.net.cn/licenses/licenses_exp/&quot;&gt;知识共享中国大陆&lt;/a&gt;：“许可协议说明”&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;</content><category term="Tips" /><category term="license" /><summary>将项目与代码开源，可以让更多的人与你共享代码，协同合作，让产品质量更高，更加适应社会的需求。然而，这并不代表该项目是可以被随意甚至是滥用的，想要成为真正的开源项目，不是单单把源代码开放在网上即可，必须在释出的项目当中说明，其代码是以某个开源许可证 (Open Source License) 来进行许可，将特定权利赋予给用户的同时，也规范公众的利用行为，让人们正确的享受开源所带来的好处与乐趣。</summary></entry><entry><title>三毛《什么都快乐》</title><link href="http://note.flinhong.com/reading/be-happy-with-your-life/" rel="alternate" type="text/html" title="三毛《什么都快乐》" /><published>2016-01-07T00:00:00+00:00</published><updated>2016-01-07T00:00:00+00:00</updated><id>http://note.flinhong.com/reading/be-happy-with-your-life</id><content type="html" xml:base="http://note.flinhong.com/reading/be-happy-with-your-life/">&lt;p&gt;最近被自己折磨得不行，睡眠一直没能调整好，该睡觉的时候却不困，该工作时却萎靡不振。都是前段时间自己不断推迟睡眠造成的，身体都快适应那些做夜猫子的时光了。当然，我要改回来！不能把自己生活想得太悲观了，乐观的看看，积极的生活。&lt;/p&gt;
+
+&lt;p&gt;下面和大家分享的这篇《什么都快乐》是三毛还快乐的时候留下的，接连20个不亦乐乎，岂能不快。趁现在自己还能无忧无虑快乐的时候，怎么能荒废呢，好好享受不亦乐乎的生活吧！少年……&lt;/p&gt;
+
+&lt;blockquote class=&quot;alt cnquote&quot;&gt;
+
+&lt;p&gt;清晨起床，喝冷茶一杯，慢打太极拳数分钟，打到一半，忘记如何续下去，从头再打，依然打不下去，干脆停止，深呼吸数十下，然后对自己说：“打好了！”再喝茶一杯，晨课结束，不亦乐乎！&lt;/p&gt;
+
+&lt;p&gt;静室写毛笔字，磨墨太专心，墨成一缸，而字未写一个，已腰酸背痛。凝视字贴十分钟，对自己说：“已经写过了！”绕室散步数圈，擦笔收纸，不亦乐乎！&lt;/p&gt;
+
+&lt;p&gt;枯坐会议室中，满堂学者高人，神情俨然。偷看手表指针几乎凝固不动，耳旁演讲欲听无心，度日如年。突见案上会议程式数张，悄悄移来折纸船，船好，轻放桌上推来推去玩耍，再看腕表，分针又移两格，不亦乐乎！&lt;/p&gt;
+
+&lt;p&gt;山居数日，不读报，不听收音机，不拆信，不收信，下山一看，世界没有什么变化，依然如我，不亦乐乎！&lt;/p&gt;
+
+&lt;p&gt;数日前与朋友约定会面，数日后完全忘却，惊觉时日已过，急打电话道歉，发觉对方亦已忘怀，两不相欠，亦不再约，不亦乐乎！&lt;/p&gt;
+
+&lt;p&gt;雨夜开车，见公路上一男子淋雨狂奔，煞车请问路人：“上不上来，可以送你？”那人见状狂奔更急，如夜行遇鬼。车远再回头，雨地里那人依旧神情惶然，见车停，那人步子又停并做戒备状，不亦乐乎！&lt;/p&gt;
+
+&lt;p&gt;四日不见父母手足，回家小聚，时光飞逝，再上山来，惊见孤灯独对，一室寂然，山风摇窗，野狗哭夜，而又不肯再下山去，不亦乐乎！&lt;/p&gt;
+
+&lt;p&gt;逛街一整日，购衣不到半件，空手而回。回家看见旧衣，倍觉件件得来不易，而小偷竟连一件也未偷去，心中欢喜。不亦乐乎！&lt;/p&gt;
+
+&lt;p&gt;夜深人静叩窗声不停，初醒以为灵魂来访，再醒确定是不识灵魂，心中惶然，起床轻轻呼唤，说：“别来了！不认得你。”窗上立即寂然，蒙头再睡，醒来阳光普照，不亦乐乎！&lt;/p&gt;
+
+&lt;p&gt;匆忙出门，用力绑鞋带，鞋带断了，丢在墙角。回家来，发觉鞋带可以系辫子，于是再将另一只拉断，得新头绳一付，不亦乐乎！&lt;/p&gt;
+
+&lt;p&gt;厌友打电话来，喋喋不休，突闻一声铃响，知道此友居然打公用电话，断话之前，对方急说：“我再打来，你接！”电话断，赶紧将话筒搁在桌上，离开很久，不再理会。二十分钟后，放回电话，凝视数秒，厌友已走，不再打来，不亦乐乎！&lt;/p&gt;
+
+&lt;p&gt;上课两小时，学生不提问题，一请二请三请，满室肃然。偷看腕表，只一分钟便将下课，于是笑对学生说：“在大学里，学生对于枯燥的课，常常会逃。现在反过来了，老师对于不发问的学生，也想逃逃课，现在老师逃了，再见！”收拾书籍，大步迈出教室，正好下课铃响，不亦乐乎！&lt;/p&gt;
+
+&lt;p&gt;黄昏散步山区，见老式红砖房一幢孤立林间，再闻摩托车声自背后羊肠小径而来。主人下车，见陌生人凝视炊烟，不知如何以对，便说：“来呷蓬！”客笑摇头，主人再说：“免客气，来坐，来呷蓬！”陌生客居然一点头，说：“好，麻烦你！”举步做入室状。主人大惊，客始微笑而去，不亦乐乎！&lt;/p&gt;
+
+&lt;p&gt;每日借邻居白狗一同散步，散完将狗送回，不必喂食，不亦乐乎！交稿死期已过，深夜犹看红楼梦。想到“今日事今日毕”格言，看看案头闹钟已指清晨三时半，发觉原来今日刚刚开始，交稿事来日方长，心头舒坦，不亦乐乎！&lt;/p&gt;
+
+&lt;p&gt;晨起闻钟声，见校方同学行色匆匆赶赴教室，惊觉自己已不再是学生，安然浇花弄草梳头打扫，不亦乐乎！&lt;/p&gt;
+
+&lt;p&gt;每周山居日子断食数日，神智清明。下山回家母亲看不出来，不亦乐乎！&lt;/p&gt;
+
+&lt;p&gt;求婚者越洋电话深夜打到父母家，恰好接听，答以：“谢谢，不，不能嫁，不要等！”挂完电话蒙头再睡，电话又来，又答，答完心中快乐，静等第三回，再答。又等数小时，而电话不再来，不亦乐乎！&lt;/p&gt;
+
+&lt;p&gt;有录音带而无录音机，静观音带小匣子，音乐由脑中自然流出来，不必机器，不亦乐乎！&lt;/p&gt;
+
+&lt;p&gt;回京翻储藏室，见童年时玻璃动物玩具满满一群安然无恙，省视自己已过中年，而手脚俱全，不亦乐乎！
+
+归国定居，得宿舍一间，不置冰箱，不备电视，不装音响，不申请电话。早晨起床，打开水笼头，发觉清水涌流，深夜回室，又见灯火满室，欣喜感激，但觉富甲天下，日日如此，不亦乐乎！&lt;/p&gt;
+&lt;div class=&quot;quote-author&quot;&gt;出自&lt;a href=&quot;https://book.douban.com/subject/1723594/&quot; target=&quot;_blank&quot;&gt;《三毛作品选》&lt;/a&gt;，海峡文艺出版社1986年版&lt;/div&gt;
+&lt;/blockquote&gt;</content><category term="Reading" /><category term="reading" /><summary>最近被自己折磨得不行，睡眠一直没能调整好，该睡觉的时候却不困，该工作时却萎靡不振。都是前段时间自己不断推迟睡眠造成的，身体都快适应那些做夜猫子的时光了。当然，我要改回来！不能把自己生活想得太悲观了，乐观的看看，积极的生活。</summary></entry><entry><title>Benjamin Francis Leftwich - Shine (Kygo Remix)</title><link href="http://note.flinhong.com/media/Benjamin-Francis-Leftwich-Shine-remixed-by-Kygo/" rel="alternate" type="text/html" title="Benjamin Francis Leftwich - Shine (Kygo Remix)" /><published>2016-01-03T00:00:00+00:00</published><updated>2016-01-03T00:00:00+00:00</updated><id>http://note.flinhong.com/media/Benjamin-Francis-Leftwich-Shine-remixed-by-Kygo</id><content type="html" xml:base="http://note.flinhong.com/media/Benjamin-Francis-Leftwich-Shine-remixed-by-Kygo/">&lt;p&gt;好听的歌不是天天有，这首&lt;em&gt;Shine&lt;/em&gt;由我非常喜欢的Kygo做的Remix，他在&lt;a href=&quot;https://soundcloud.com/kygo&quot;&gt;Soundcloud&lt;/a&gt;上有不少好听的歌曲，这是我无意间发现的第一首，一听就上瘾。&lt;/p&gt;
+
+&lt;p&gt;听这歌，循环了好久，就是觉得Remix中Bass可以再少点点就好，比起原作那种淡淡的味道过于浓烈了。&lt;/p&gt;
+
+&lt;p&gt;再者，这首歌的歌词也是非常暖心的，慢慢听着就能睡着：&lt;/p&gt;
+
+&lt;blockquote class=&quot;alt&quot;&gt;
+  &lt;p&gt;I could live in a different place&lt;/p&gt;
+
+  &lt;p&gt;I could wrap you in your favourite clothes&lt;/p&gt;
+
+  &lt;p&gt;I hope you find the love that’s true&lt;/p&gt;
+
+  &lt;p&gt;I could fly you away with me&lt;/p&gt;
+
+  &lt;p&gt;I hope you find the love that’s true&lt;/p&gt;
+
+  &lt;p&gt;I could wait with you by the water&lt;/p&gt;
+
+  &lt;p&gt;I could wait with you for the winter to come&lt;/p&gt;
+
+  &lt;p&gt;I could stand with you with your snow boots on&lt;/p&gt;
+
+  &lt;p&gt;I hope you find the love that’s true&lt;/p&gt;
+
+  &lt;p&gt;I hope you find what you’re looking for&lt;/p&gt;
+
+  &lt;p&gt;So your heart is warm for ever more&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这是原作的MV，也是非常小清新的。&lt;/p&gt;
+&lt;iframe width=&quot;1280&quot; height=&quot;720&quot; src=&quot;https://www.youtube.com/embed/pE2YKq_093U&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;</content><category term="Media" /><category term="remix" /><summary>好听的歌不是天天有，这首Shine由我非常喜欢的Kygo做的Remix，他在Soundcloud上有不少好听的歌曲，这是我无意间发现的第一首，一听就上瘾。</summary></entry></feed>

@@ -3,7 +3,7 @@
 
 <head>
     
-    <title>Frank's Note | Frank's Note</title>
+    <title>C#中布尔逻辑 | Frank's Note</title>
     
     <!-- Meta tags -->
     <meta charset="UTF-8">
@@ -31,9 +31,9 @@
     <meta name="msapplication-TileImage" content="/img/icons/mstile-144x144.png?v=KmmkJnpdEE">
     <meta name="theme-color" content="#a6412b">
     <!-- Meta -->
-    <meta name="description" content="Frank's Digest">
+    <meta name="description" content="C#中，bool类型可以有两个值：true或false。这种类型常常用于记录某些操作的结果，当然也用作存储比较结果，用以判断。">
     <meta name="author" content="Frank Lin">
-    <link rel="canonical" href="http://note.flinhong.com/">
+    <link rel="canonical" href="http://note.flinhong.com/study/bool-in-c-sharp/">
     
     <meta http-equiv="content-language" content="zh-Hans">
     
@@ -248,132 +248,221 @@
             <div class="row">
                 <!-- Main content -->
                 <div class="col col_8_of_12 main_content">
-                    <!-- Article standard view -->
-                    <div class="article_standard_view">
+                    <!-- Breadcrumb -->
+                    <div class="breadcrumb">
+                        <ul class="clearfix">
+                            <li><a href="https://www.flinhong.com">Home</a></li>
+                            <li><a href="/">Note</a></li>
+                            <li>C#中布尔逻辑</li>
+                        </ul>
+                    </div>
+                    <!-- Article -->
+                    <article class="post">
+                        <!-- Post header -->
+                        <header class="post_header">
+                            <h1>C#中布尔逻辑</h1>
+                            <div class="entry_meta">
+                                <span><i class="fa fa-user"></i> Frank Lin</span>
+                                <span><i class="fa fa-clock-o"></i> Dec 1, 2015</span>
+                                <span><i class="fa fa-book"></i> Study</span>
+                                <span><i class="fa fa-tags"></i>  C# </span>
+                                <span><i class="fa fa-pencil-square-o"></i> 1229 words</span>
+                                <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/study/bool-in-c-sharp/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//study/bool-in-c-sharp"> Comments</a></span>
+                            </div>
+                        </header>
+                        <!-- Post content -->
                         
-                        <article class="item">
-                            
 
-<div class="item_header">
-    <a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/"><img src="/images/201604/comments.jpg" alt="Example of a Javascript for recent comment widget based on Disqus API"></a>
+<div class="post_content">
+    <a href="/images/201512/csharp.png" class="magnificPopupImage">
+        <img src="/images/201512/csharp.png" alt="C#中布尔逻辑">
+    </a>
+    
 </div>
 
 
-                            <div class="item_content">
-                                <h3><a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/">Example of a Javascript for recent comment widget based on Disqus API</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 13, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/example-of-js-recent-comments-widget-based-on-disqus-api/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/example-of-js-recent-comments-widget-based-on-disqus-api"> Comments</a></span>
-                                </div>
+                        <!-- Post main content -->
+                        <div class="post_main_container">
+                        <p>C#中，bool类型可以有两个值：true或false。这种类型常常用于记录某些操作的结果，当然也用作存储比较结果，用以判断。</p>
+
+<p>布尔逻辑在其他语言中也非常常见，用法也很简单，但也有一些需要注意的地方，一边学一边做些笔记吧。</p>
+
+<p>有时候无意间假设<code class="highlighter-rouge">val1 &lt; val2</code>是false，而认为<code class="highlighter-rouge">val1 &gt; val2</code>便是true，需要注意，还有<code class="highlighter-rouge">val1 == val2</code>这个情况。</p>
+
+<p>使用<code class="highlighter-rouge">&amp;&amp;</code>和<code class="highlighter-rouge">||</code>运算符来代替<code class="highlighter-rouge">&amp;</code>和<code class="highlighter-rouge">|</code>，性能会有一定提高，在大量使用这些运算符的应用程序中表现尤为明显。例如说，<code class="highlighter-rouge">&amp;&amp;</code>运算符的第一个操作数是<code class="highlighter-rouge">false</code>，则不需要考虑第二个操作数了，因为无论第二个操作数的值是什么，其结果都是<code class="highlighter-rouge">false</code>。</p>
+
+<p>另外，还有一个非常有用的例子：</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="n">var1</span> <span class="p">=</span> <span class="p">(</span><span class="n">var2</span> <span class="p">!=</span> <span class="m">0</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="p">(</span><span class="n">var3</span> <span class="p">/</span> <span class="n">var2</span> <span class="p">&gt;</span> <span class="m">2</span><span class="p">);</span></code></pre></figure>
+
+<p>在上面的例子中，如果<code class="highlighter-rouge">var2</code>是0，则<code class="highlighter-rouge">var3 / var2</code>就会导致“除0错误”，或者把<code class="highlighter-rouge">var1</code>定义为无穷大。而通过<code class="highlighter-rouge">&amp;&amp;</code>先判断<code class="highlighter-rouge">var2</code>的值就可以规避这种不经意的错误。</p>
+
+<p><code class="highlighter-rouge">&amp;</code>、<code class="highlighter-rouge">|</code>和<code class="highlighter-rouge">^</code>运算符还有一个有趣的作用：对数值执行按位操作，它们处理的是变量中存储的一系列位，而不是改变变量值。</p>
+
+<p>例如，考虑以下代码的操作：</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="kt">int</span> <span class="n">result</span><span class="p">,</span> <span class="n">op1</span><span class="p">,</span> <span class="n">op2</span><span class="p">;</span>
+<span class="n">op1</span> <span class="p">=</span> <span class="m">4</span><span class="p">,</span> <span class="n">op2</span> <span class="p">=</span> <span class="m">5</span><span class="p">;</span>
+<span class="n">result</span> <span class="p">=</span> <span class="n">op1</span> <span class="p">&amp;</span> <span class="n">op2</span><span class="p">;</span></code></pre></figure>
+
+<p>这里就需要考虑<code class="highlighter-rouge">op1</code>和<code class="highlighter-rouge">op2</code>的二进制表示，它们分别是<code class="highlighter-rouge">100</code>和<code class="highlighter-rouge">101</code>。</p>
+
+<p><img src="http://i65.tinypic.com/29mpy0m.png" alt="按位运算" /></p>
+
+<p>按位对比后，二进制结果为<code class="highlighter-rouge">100</code>，即<code class="highlighter-rouge">op1 &amp; op2</code>结果是4。</p>
+
+<p>C#中还可以使用一元运算符<code class="highlighter-rouge">~</code>，它将操作数中的位取反。但需要注意的是整数在<code class="highlighter-rouge">.NET</code>中存储的方式称为2的补位，按照2的补位系统，<code class="highlighter-rouge">(-x)</code>定义为<code class="highlighter-rouge">(~x + 1)</code>。例如，把10和-5相加（即10-5），用32位<code class="highlighter-rouge">int</code>表示为：</p>
+
+<p><img src="http://i66.tinypic.com/2zggahf.png" alt="补位相减" /></p>
+
+<p>忽略最左端的1，就得到<code class="highlighter-rouge">10-5</code>的二进制表示，即十进制5。类似地<code class="highlighter-rouge">~1 = 2</code>这样比较奇怪的结果就是因为底层的结构强制生成了这个结果。</p>
+
+<p>除了上面介绍的<code class="highlighter-rouge">&amp;</code>、<code class="highlighter-rouge">|</code>、<code class="highlighter-rouge">^</code>和<code class="highlighter-rouge">~</code>外，还有两个移位运算符：<code class="highlighter-rouge">&gt;&gt;</code>和<code class="highlighter-rouge">&lt;&lt;</code>。比如说下面这个例子：</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="kt">int</span> <span class="n">var1</span><span class="p">,</span> <span class="n">var2</span> <span class="p">=</span> <span class="m">10</span><span class="p">,</span> <span class="n">var3</span> <span class="p">=</span> <span class="m">2</span><span class="p">;</span>
+<span class="n">var1</span> <span class="p">=</span> <span class="n">var2</span> <span class="p">&lt;&lt;</span> <span class="n">var3</span><span class="p">;</span></code></pre></figure>
+
+<p>最终<code class="highlighter-rouge">var1</code>的值是40。具体执行过程如下：<code class="highlighter-rouge">var2</code>的二进制值是<code class="highlighter-rouge">1010</code>，把该二进制值向左移位两位（<code class="highlighter-rouge">var3</code>），得到<code class="highlighter-rouge">101000</code>，即十进制中的40。实际上，是执行了乘法操作，每向左移动一位，该数都要乘以2。</p>
+
+<p>类似地，每向右移动一位，则将操作数除以2，并丢弃非整数余数：</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="kt">int</span> <span class="n">var1</span><span class="p">,</span> <span class="n">var2</span> <span class="p">=</span> <span class="m">10</span><span class="p">,</span> <span class="n">var3</span><span class="p">;</span>
+<span class="n">var1</span> <span class="p">=</span> <span class="n">var2</span> <span class="p">&gt;&gt;</span> <span class="m">1</span><span class="p">;</span>
+<span class="n">var3</span> <span class="p">=</span> <span class="n">var2</span> <span class="p">&gt;&gt;</span> <span class="m">2</span><span class="p">;</span></code></pre></figure>
+
+<p>上面示例中，<code class="highlighter-rouge">var1</code>的值是5，而<code class="highlighter-rouge">var3</code>的值是2。</p>
+
+<p>按位移位运算符主要用于高度优化的代码，通常用于设备驱动程序或是系统代码。</p>
+
+                        <br/>
+Share this post:
+<div class="addthis_sharing_toolbox"></div>
+
+                        <div class="spacer" style="color: #79AF80"><i class="fa fa-anchor fa-lg"></i></div>
+                        </div><!-- End .Post main content -->
+                        <!-- Post controls -->
+                        <div class="post_controls">
+                            <div class="prev_post">
+                                <span><i class="fa fa-angle-double-left" aria-hidden="true"></i> Previous</span>
                                 
-                                <p>Recently, I changed the comment serves from Duoshuo to Disqus on my blog and interested in adding a widget to show the recent comments in the sidebar. Back in the early days, Disqus itself provided an official JavaScript widget but, although it’s still available, it’s officially deprecated. And now you can use the Disqus API to get the raw data, and tailor the raw data exactly to your needs.</p>
+                                <a href="/tips/endnote-in-word-2016/">Office (Word) 2016中手动加载Endnote X7.4</a>
                                 
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
                             </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-
-                            <div class="item_content">
-                                <h3><a href="/tips/redirect-http-to-https/">全站SSL，将http重定向到https</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 9, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/redirect-http-to-https/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/redirect-http-to-https"> Comments</a></span>
-                                </div>
+                            <div class="post_separator"></div>
+                            <div class="next_post">
+                                <span>Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
                                 
-                                <p>超文本传输协议（HTTP-Hypertext transfer protocol）是一种详细规定了浏览器和万维网服务器之间互相通信的规则，通过因特网传送万维网文档的数据传送协议。而HTTPS（全称：Hypertext Transfer Protocol over Secure Socket Layer），是以安全为目标的http通道，简单讲是http的安全版。即http下加入SSL（Security Socket Layer）层，https的安全基础是SSL，因此加密的详细内容就需要SSL。总的来讲，http效率更高，https安全性更高。</p>
+                                <a href="/media/Benjamin-Francis-Leftwich-Shine-remixed-by-Kygo/">Benjamin Francis Leftwich - Shine (Kygo Remix)</a>
                                 
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
                             </div>
-                        </article>
+                        </div>
                         
-                        <article class="item">
-                            
-
-
-                            <div class="item_content">
-                                <h3><a href="/journal/blog-encryption-with-openssl/">博客启用https啦</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 9, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/journal/blog-encryption-with-openssl/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//journal/blog-encryption-with-openssl"> Comments</a></span>
-                                </div>
-                                
-                                <p>从今天起，我的博客正式切换到https啦。在浏览器的地址栏中终于有把绿色小锁了，再也不同担心浏览器说网站不安全了，瞬间觉得专业了，有没有。。</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-
-                            <div class="item_content">
-                                <h3><a href="/tips/delete-files-with-looooong-names/">Windows上删除文件路径过长的文件</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 7, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/delete-files-with-looooong-names/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/delete-files-with-looooong-names"> Comments</a></span>
-                                </div>
-                                
-                                <p>好吧，遇到这样的问题也是个学习的机会。今天想要批量压缩博客图片文件以符合PageSpeed Insights的要求，就到处找工具和方法。没想到遇到一个坑。</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
-
-<div class="item_header">
-    <iframe width="1280" height="720" src="https://www.youtube.com/embed/8mVbdjec0pA" frameborder="0" allowfullscreen></iframe>
+<!-- Author box -->
+<div class="author_box">
+    <img src="/demo/banner-ads/125x125.jpg" alt="Avatar">
+    <div class="description">
+        <a class="bio" href="#">Frank Lin</a>
+        <p>Vestibulum eu dictum nibh. In congue, purus gravida ultricies fermentum, leo orci cursus nibh, a sollicitudin lectus mi eget felis. Proin eu metus id augue ornare maximus. Sed non nulla vel lectus ullamcorper aliquet eget sed sem.</p>
+        <ul class="social_icons">
+            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+            <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+        </ul>
+    </div>
 </div>
 
-
-                            <div class="item_content">
-                                <h3><a href="/media/Gabrielle-Aplin-Home/">Gabrielle Aplin - Home</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 3, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/media/Gabrielle-Aplin-Home/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//media/Gabrielle-Aplin-Home"> Comments</a></span>
-                                </div>
-                                
-                                <p>看完一部电影，听完一首歌，以及经历一个别人的故事，而后感悟一下自己的人生："真正心碎的经历，是你怀着思乡心切的情感回道故乡，却感觉到格格不入时，不是家乡变了，而是你自己变了。"</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
                         
-                    </div><!-- End .Article standard view -->
-
-
-                    <ul class="page-numbers">
+<!-- Related articles -->
+<h5 class="title_section">Related articles</h5>
+<div class="related_articles">
+    <div class="row">
+        
+        <div class="col col_4_of_12">
+            <div class="article_standard_view">
+                <article class="item">
                     
-                        
-                        <li><span class="page-numbers"><i class="fa fa-caret-left"></i></li>
-                        
-                        
-                        
-                        <li><span class="page-numbers current">1</span></li>
-                        
-                        
-                        
-                        <li><a class="page-numbers" href="/page2">2</a></li>
-                        
-                        
-                        
-                        <li><a class="page-numbers" href="/page3">3</a></li>
-                        
-                        
-                        
-                        <li><a class="page-numbers" href="/page4">4</a></li>
-                        
-                        
-                        
-                        <li><a class="next page-numbers" href="/page2"><i class="fa fa-caret-right"></i></a></li>
-                        
+                    <div class="item_header">
+                        <a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/"><img src="/images/201604/comments.jpg" alt="Example of a Javascript for recent comment widget based on Disqus API"></a>
+                    </div>
                     
-                    </ul>
+                    <div class="item_content">
+                        <h3><a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/">Example of a Javascript for recent comment widget based on Disqus API</a></h3>
+                        <div class="entry_meta">
+                        <span><i class="fa fa-clock-o"></i> 2016-04-13</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+        <div class="col col_4_of_12">
+            <div class="article_standard_view">
+                <article class="item">
+                    
+                    <div class="item_header">
+                        <a href="/tips/redirect-http-to-https/"><img src="/img/noimage.jpg" alt="全站SSL，将http重定向到https"></a>
+                    </div>
+                    
+                    <div class="item_content">
+                        <h3><a href="/tips/redirect-http-to-https/">全站SSL，将http重定向到https</a></h3>
+                        <div class="entry_meta">
+                        <span><i class="fa fa-clock-o"></i> 2016-04-09</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+        <div class="col col_4_of_12">
+            <div class="article_standard_view">
+                <article class="item">
+                    
+                    <div class="item_header">
+                        <a href="/journal/blog-encryption-with-openssl/"><img src="/img/noimage.jpg" alt="博客启用https啦"></a>
+                    </div>
+                    
+                    <div class="item_content">
+                        <h3><a href="/journal/blog-encryption-with-openssl/">博客启用https啦</a></h3>
+                        <div class="entry_meta">
+                        <span><i class="fa fa-clock-o"></i> 2016-04-09</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_recommended_horizontal"></div>
+
+                        
+<!-- Comments -->
+<h5 class="title_section">Comments</h5>
+
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+this.page.url = "http://note.flinhong.com/study/bool-in-c-sharp/";
+this.page.identifier = "Frank's Note//study/bool-in-c-sharp";
+this.page.title = "C#中布尔逻辑";
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//flinhong.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+                    </article><!-- End .Article -->
                 </div><!-- End .Main content -->
                 
 <!-- Sidebar area -->

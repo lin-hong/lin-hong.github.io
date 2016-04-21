@@ -3,7 +3,7 @@
 
 <head>
     
-    <title>Frank's Note | Frank's Note</title>
+    <title>HTML 相对路径和绝对路径区别分析 | Frank's Note</title>
     
     <!-- Meta tags -->
     <meta charset="UTF-8">
@@ -31,9 +31,9 @@
     <meta name="msapplication-TileImage" content="/img/icons/mstile-144x144.png?v=KmmkJnpdEE">
     <meta name="theme-color" content="#a6412b">
     <!-- Meta -->
-    <meta name="description" content="Frank's Digest">
+    <meta name="description" content="HTML初学者会经常遇到这样一个问题，如何正确引用一个文件。比如，怎样在一个HTML网页中引用另外一个HTML网页作为超链接(hyperlink)，怎样在一个网页中插入一张图片。如果你在引用文件时(如加入超链接，或者插入图片等)，使用了错误的文件路径，就会导致引用失效(无法浏览链接文件，或无法显示插入的图片等)。">
     <meta name="author" content="Frank Lin">
-    <link rel="canonical" href="http://note.flinhong.com/">
+    <link rel="canonical" href="http://note.flinhong.com/tips/relative-path-in-html/">
     
     <meta http-equiv="content-language" content="zh-Hans">
     
@@ -248,138 +248,274 @@
             <div class="row">
                 <!-- Main content -->
                 <div class="col col_8_of_12 main_content">
-                    <!-- Article standard view -->
-                    <div class="article_standard_view">
+                    <!-- Breadcrumb -->
+                    <div class="breadcrumb">
+                        <ul class="clearfix">
+                            <li><a href="https://www.flinhong.com">Home</a></li>
+                            <li><a href="/">Note</a></li>
+                            <li>HTML 相对路径和绝对路径区别分析</li>
+                        </ul>
+                    </div>
+                    <!-- Article -->
+                    <article class="post">
+                        <!-- Post header -->
+                        <header class="post_header">
+                            <h1>HTML 相对路径和绝对路径区别分析</h1>
+                            <div class="entry_meta">
+                                <span><i class="fa fa-user"></i> Frank Lin</span>
+                                <span><i class="fa fa-clock-o"></i> Sep 26, 2015</span>
+                                <span><i class="fa fa-book"></i> Tips</span>
+                                <span><i class="fa fa-tags"></i>  html </span>
+                                <span><i class="fa fa-pencil-square-o"></i> 1945 words</span>
+                                <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/relative-path-in-html/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/relative-path-in-html"> Comments</a></span>
+                            </div>
+                        </header>
+                        <!-- Post content -->
                         
-                        <article class="item">
-                            
 
-<div class="item_header">
-    <a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/"><img src="/images/201604/comments.jpg" alt="Example of a Javascript for recent comment widget based on Disqus API"></a>
+<div class="post_content">
+    <a href="/images/201509/html-path.png" class="magnificPopupImage">
+        <img src="/images/201509/html-path.png" alt="HTML 相对路径和绝对路径区别分析">
+    </a>
+    
 </div>
 
 
-                            <div class="item_content">
-                                <h3><a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/">Example of a Javascript for recent comment widget based on Disqus API</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 13, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/example-of-js-recent-comments-widget-based-on-disqus-api/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/example-of-js-recent-comments-widget-based-on-disqus-api"> Comments</a></span>
-                                </div>
-                                
-                                <p>Recently, I changed the comment serves from Duoshuo to Disqus on my blog and interested in adding a widget to show the recent comments in the sidebar. Back in the early days, Disqus itself provided an official JavaScript widget but, although it’s still available, it’s officially deprecated. And now you can use the Disqus API to get the raw data, and tailor the raw data exactly to your needs.</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
+                        <!-- Post main content -->
+                        <div class="post_main_container">
+                        <p>HTML初学者会经常遇到这样一个问题，如何正确引用一个文件。比如，怎样在一个HTML网页中引用另外一个HTML网页作为超链接(hyperlink)，怎样在一个网页中插入一张图片。如果你在引用文件时(如加入超链接，或者插入图片等)，使用了错误的文件路径，就会导致引用失效(无法浏览链接文件，或无法显示插入的图片等)。</p>
 
+<p>为了避免这些错误，正确地引用文件，我们需要学习一下HTML路径。</p>
 
-                            <div class="item_content">
-                                <h3><a href="/tips/redirect-http-to-https/">全站SSL，将http重定向到https</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 9, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/redirect-http-to-https/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/redirect-http-to-https"> Comments</a></span>
-                                </div>
-                                
-                                <p>超文本传输协议（HTTP-Hypertext transfer protocol）是一种详细规定了浏览器和万维网服务器之间互相通信的规则，通过因特网传送万维网文档的数据传送协议。而HTTPS（全称：Hypertext Transfer Protocol over Secure Socket Layer），是以安全为目标的http通道，简单讲是http的安全版。即http下加入SSL（Security Socket Layer）层，https的安全基础是SSL，因此加密的详细内容就需要SSL。总的来讲，http效率更高，https安全性更高。</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
+<p>HTML有2种路径的写法：相对路径和绝对路径。</p>
 
+<h2 id="headid-htmlrelative-path">HTML相对路径(Relative Path)</h2>
 
-                            <div class="item_content">
-                                <h3><a href="/journal/blog-encryption-with-openssl/">博客启用https啦</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 9, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/journal/blog-encryption-with-openssl/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//journal/blog-encryption-with-openssl"> Comments</a></span>
-                                </div>
-                                
-                                <p>从今天起，我的博客正式切换到https啦。在浏览器的地址栏中终于有把绿色小锁了，再也不同担心浏览器说网站不安全了，瞬间觉得专业了，有没有。。</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
+<h3 id="headid-section">同一个目录的文件引用</h3>
 
+<p>如果源文件和引用文件在同一个目录里，直接写引用文件名即可。</p>
 
-                            <div class="item_content">
-                                <h3><a href="/tips/delete-files-with-looooong-names/">Windows上删除文件路径过长的文件</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 7, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/tips/delete-files-with-looooong-names/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//tips/delete-files-with-looooong-names"> Comments</a></span>
-                                </div>
-                                
-                                <p>好吧，遇到这样的问题也是个学习的机会。今天想要批量压缩博客图片文件以符合PageSpeed Insights的要求，就到处找工具和方法。没想到遇到一个坑。</p>
-                                
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
-                            </div>
-                        </article>
-                        
-                        <article class="item">
-                            
+<p>我们现在建一个源文件info.html，在info.html里要引用index.html文件作为超链接。</p>
 
-<div class="item_header">
-    <iframe width="1280" height="720" src="https://www.youtube.com/embed/8mVbdjec0pA" frameborder="0" allowfullscreen></iframe>
+<p>假设info.html路径是：<code class="highlighter-rouge">c:\Inetpub\wwwroot\sites\blabla\info.html</code></p>
+
+<p>假设index.html路径是：<code class="highlighter-rouge">c:\Inetpub\wwwroot\sites\blabla\index.html</code></p>
+
+<p>在info.html加入index.html超链接的代码应该这样写：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;a href = "index.html"&gt;index.html&lt;/a&gt;
+</code></pre>
 </div>
 
+<h3 id="headid-section-1">如何表示上级目录</h3>
 
-                            <div class="item_content">
-                                <h3><a href="/media/Gabrielle-Aplin-Home/">Gabrielle Aplin - Home</a></h3>
-                                <div class="entry_meta">
-                                    <span><i class="fa fa-clock-o"></i> Apr 3, 2016</span>
-                                    <span><i class="fa fa-commenting-o"></i> <a href="http://note.flinhong.com/media/Gabrielle-Aplin-Home/#disqus_thread" class="comments" data-disqus-identifier="Frank's Note//media/Gabrielle-Aplin-Home"> Comments</a></span>
-                                </div>
+<p>../表示源文件所在目录的上一级目录，../../表示源文件所在目录的上上级目录，以此类推。</p>
+
+<p>假设info.html路径是：<code class="highlighter-rouge">c:\Inetpub\wwwroot\sites\blabla\info.html</code></p>
+
+<p>假设index.html路径是：<code class="highlighter-rouge">c:\Inetpub\wwwroot\sites\index.html</code></p>
+
+<p>在info.html加入index.html超链接的代码应该这样写：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;a href = "../index.html"&gt;index.html&lt;/a&gt;
+</code></pre>
+</div>
+
+<p>假设info.html路径是：<code class="highlighter-rouge">c:\Inetpub\wwwroot\sites\blabla\info.html</code></p>
+
+<p>假设index.html路径是：<code class="highlighter-rouge">c:\Inetpub\wwwroot\index.html</code></p>
+
+<p>在info.html加入index.html超链接的代码应该这样写：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;a href = "../../index.html"&gt;index.html&lt;/a&gt;
+</code></pre>
+</div>
+
+<p>假设info.html路径是：<code class="highlighter-rouge">c:\Inetpub\wwwroot\sites\blabla\info.html</code></p>
+
+<p>假设index.html路径是：<code class="highlighter-rouge">c:\Inetpub\wwwroot\sites\wowstory\index.html</code></p>
+
+<p>在info.html加入index.html超链接的代码应该这样写：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;a href = "../wowstory/index.html"&gt;index.html&lt;/a&gt;
+</code></pre>
+</div>
+
+<h3 id="headid-section-2">如何表示下级目录</h3>
+
+<p>引用下级目录的文件，直接写下级目录文件的路径即可。</p>
+
+<p>假设info.html路径是：<code class="highlighter-rouge">c:\Inetpub\wwwroot\sites\blabla\info.html</code></p>
+
+<p>假设index.html路径是：<code class="highlighter-rouge">c:\Inetpub\wwwroot\sites\blabla\html\index.html</code></p>
+
+<p>在info.html加入index.html超链接的代码应该这样写：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;a href = "html/index.html"&gt;index.html&lt;/a&gt;
+</code></pre>
+</div>
+
+<p>假设info.html路径是：<code class="highlighter-rouge">c:\Inetpub\wwwroot\sites\blabla\info.html</code></p>
+
+<p>假设index.html路径是：<code class="highlighter-rouge">c:\Inetpub\wwwroot\sites\blabla\html\tutorials\index.html</code></p>
+
+<p>在info.html加入index.html超链接的代码应该这样写：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;a href = "html/tutorials/index.html"&gt;index.html&lt;/a&gt;
+</code></pre>
+</div>
+
+<h2 id="headid-htmlabsolute-path">HTML绝对路径(Absolute Path)</h2>
+
+<p>HTML绝对路径(absolute path)指带域名的文件的完整路径。</p>
+
+<p>假设我有一个域名<a href="http://flinhong.github.io">flinhong.github.io</a>，并使用GitHub Pages，那么这个域名就是网站的根目录。</p>
+
+<p>假设在根目录下放了一个文件index.html，这个文件的绝对路径就是： <code class="highlighter-rouge">http://flinhong.github.io/index.html</code>。</p>
+
+<p>假设在根目录下建了一个目录叫html_tutorials，然后在该目录下放了一个文件index.html，这个文件的绝对路径就是<code class="highlighter-rouge">http://flinhong.github.io/html_tutorials/index.html</code>。</p>
+
+                        <br/>
+Share this post:
+<div class="addthis_sharing_toolbox"></div>
+
+                        <div class="spacer" style="color: #79AF80"><i class="fa fa-anchor fa-lg"></i></div>
+                        </div><!-- End .Post main content -->
+                        <!-- Post controls -->
+                        <div class="post_controls">
+                            <div class="prev_post">
+                                <span><i class="fa fa-angle-double-left" aria-hidden="true"></i> Previous</span>
                                 
-                                <p>看完一部电影，听完一首歌，以及经历一个别人的故事，而后感悟一下自己的人生："真正心碎的经历，是你怀着思乡心切的情感回道故乡，却感觉到格格不入时，不是家乡变了，而是你自己变了。"</p>
+                                <a href="/reading/the-paper-menagerie/">The Paper Menagerie - 纸异兽</a>
                                 
-                                <div class="spacer">><i class="fa fa-paragraph"></i></div>
                             </div>
-                        </article>
+                            <div class="post_separator"></div>
+                            <div class="next_post">
+                                <span>Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+                                
+                                <a href="/design/qr-code-to-post-with-jekyll/">为Jekyll文章添加二维码</a>
+                                
+                            </div>
+                        </div>
                         
-                    </div><!-- End .Article standard view -->
+<!-- Author box -->
+<div class="author_box">
+    <img src="/demo/banner-ads/125x125.jpg" alt="Avatar">
+    <div class="description">
+        <a class="bio" href="#">Frank Lin</a>
+        <p>Vestibulum eu dictum nibh. In congue, purus gravida ultricies fermentum, leo orci cursus nibh, a sollicitudin lectus mi eget felis. Proin eu metus id augue ornare maximus. Sed non nulla vel lectus ullamcorper aliquet eget sed sem.</p>
+        <ul class="social_icons">
+            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+            <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+        </ul>
+    </div>
+</div>
+
+                        
+<!-- Related articles -->
+<h5 class="title_section">Related articles</h5>
+<div class="related_articles">
+    <div class="row">
+        
+        <div class="col col_4_of_12">
+            <div class="article_standard_view">
+                <article class="item">
+                    
+                    <div class="item_header">
+                        <a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/"><img src="/images/201604/comments.jpg" alt="Example of a Javascript for recent comment widget based on Disqus API"></a>
+                    </div>
+                    
+                    <div class="item_content">
+                        <h3><a href="/tips/example-of-js-recent-comments-widget-based-on-disqus-api/">Example of a Javascript for recent comment widget based on Disqus API</a></h3>
+                        <div class="entry_meta">
+                        <span><i class="fa fa-clock-o"></i> 2016-04-13</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+        <div class="col col_4_of_12">
+            <div class="article_standard_view">
+                <article class="item">
+                    
+                    <div class="item_header">
+                        <a href="/tips/redirect-http-to-https/"><img src="/img/noimage.jpg" alt="全站SSL，将http重定向到https"></a>
+                    </div>
+                    
+                    <div class="item_content">
+                        <h3><a href="/tips/redirect-http-to-https/">全站SSL，将http重定向到https</a></h3>
+                        <div class="entry_meta">
+                        <span><i class="fa fa-clock-o"></i> 2016-04-09</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+        <div class="col col_4_of_12">
+            <div class="article_standard_view">
+                <article class="item">
+                    
+                    <div class="item_header">
+                        <a href="/journal/blog-encryption-with-openssl/"><img src="/img/noimage.jpg" alt="博客启用https啦"></a>
+                    </div>
+                    
+                    <div class="item_content">
+                        <h3><a href="/journal/blog-encryption-with-openssl/">博客启用https啦</a></h3>
+                        <div class="entry_meta">
+                        <span><i class="fa fa-clock-o"></i> 2016-04-09</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_recommended_horizontal"></div>
+
+                        
+<!-- Comments -->
+<h5 class="title_section">Comments</h5>
+
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+this.page.url = "http://note.flinhong.com/tips/relative-path-in-html/";
+this.page.identifier = "Frank's Note//tips/relative-path-in-html";
+this.page.title = "HTML 相对路径和绝对路径区别分析";
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//flinhong.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
 
-                    <ul class="page-numbers">
-                    
-                        
-                        <li><span class="page-numbers"><i class="fa fa-caret-left"></i></li>
-                        
-                        
-                        
-                        <li><span class="page-numbers current">1</span></li>
-                        
-                        
-                        
-                        <li><a class="page-numbers" href="/page2">2</a></li>
-                        
-                        
-                        
-                        <li><a class="page-numbers" href="/page3">3</a></li>
-                        
-                        
-                        
-                        <li><a class="page-numbers" href="/page4">4</a></li>
-                        
-                        
-                        
-                        <li><a class="next page-numbers" href="/page2"><i class="fa fa-caret-right"></i></a></li>
-                        
-                    
-                    </ul>
+                    </article><!-- End .Article -->
                 </div><!-- End .Main content -->
                 
 <!-- Sidebar area -->
 <div class="col col_4_of_12 sidebar_area">
     <div class="theiaStickySidebar">
         
+        
+        <!-- Widget Table of Contents -->
+        <aside class="widget">
+            <h3 class="widget_title"><span>Table of Contents</span></h3>
+            <div id="toc"></div>
+        </aside>
         
         
         <!-- Widget tag cloud -->
@@ -625,6 +761,8 @@
 <script src="/js/jquery-fitvids.js"></script>
 <script src="/js/jquery-carousel.js"></script>
 <script src="/js/jquery-init.js"></script>
+
+<script src="/js/toc.js"></script>
 
 
 <script id="dsq-count-scr" src="//flinhong.disqus.com/count.js" async></script>
